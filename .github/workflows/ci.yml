@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v7
       - run: uv sync --extra dev
       - run: uv run ruff check src/ tests/ .opencode/scripts/
       - run: uv run ruff format --check src/ tests/ .opencode/scripts/
@@ -53,7 +53,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v7
       - run: uv sync --extra dev
       - run: uv run mypy src/
 
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v7
       - run: uv sync --extra dev --python ${{ matrix.python }}
       - run: uv run --python ${{ matrix.python }} pytest
 
@@ -88,6 +88,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v7
       - run: uv sync --extra dev
       - run: uv run xenon --max-absolute B --max-modules A --max-average A src/
