@@ -1,4 +1,4 @@
-# PR: CI workflows (ubuntu-latest) + dependabot
+# PR #18: CI workflows (ubuntu-latest) + dependabot
 
 ## Что сделано
 
@@ -29,7 +29,7 @@ Bootstrapping: CI нужен до #7 (.opencode/ scripts) и #5 (src/tests). boo
 ## Watch out
 
 - ci.yml НЕ перенесён "как есть" — добавлен bootstrap job + output-based conditions (адаптация для bootstrapping)
-- hashFiles() не работает в GitHub Actions job-level `if` — это известное ограничение, см. ADR-002
+- hashFiles() не работает в GitHub Actions job-level `if` — это известное ограничение, см. ADR-001
 - branches: [master] → [main] — старый репо использовал master, новый main
 - trigger paths в permissions-check.yml/adr-check.yml: config/ → .opencode/ (config/ не существует в новом репо)
 - permissions-check.yml, adr-check.yml — skip до #7 (нет .opencode/scripts/)

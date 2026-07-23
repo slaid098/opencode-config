@@ -1,4 +1,4 @@
-# ADR-002: CI bootstrap job + output-based skip conditions
+# ADR-001: CI bootstrap job + output-based skip conditions
 
 ## Статус
 
