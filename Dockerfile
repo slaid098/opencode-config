@@ -26,6 +26,8 @@ RUN mkdir -p -m 0755 /etc/apt/keyrings \
     && apt-get install -y gh \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared && chmod +x /usr/local/bin/cloudflared
+
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
