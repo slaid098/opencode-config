@@ -1,4 +1,4 @@
-# PR: Migrate src/ + tests/ + Python tooling
+# PR #17: Migrate src/ + tests/ + Python tooling
 
 ## Что сделано
 
@@ -17,7 +17,7 @@
 ## Pending
 
 - `pipeline-status.py` (fix `610452f`) мигрирует через #7 (`.opencode/scripts/`), не через #5
-- `pyproject.toml` в корне может триггерить LSP-конфликт на bare-metal Windows (ADR-009) — отслеживать
+- `pyproject.toml` в корне может триггерить LSP-конфликт на bare-metal Windows — отслеживать
 
 ## Watch out
 

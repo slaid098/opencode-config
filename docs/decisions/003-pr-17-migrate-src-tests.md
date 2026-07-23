@@ -1,4 +1,4 @@
-# ADR-001: Migrate src/ second-brain + tests from fix-branch
+# ADR-003: Migrate src/ second-brain + tests from fix-branch
 
 ## Статус
 
