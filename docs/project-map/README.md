@@ -19,8 +19,8 @@ opencode-config/
 │   │   └── reviewer.md             # Code review subagent (verdict APPROVE|REQUEST_CHANGES)
 │   ├── commands/
 │   │   ├── configure-opencode.md   # /configure-opencode — edit opencode.json
-│   │   ├── pipeline-driver.md      # /pipeline-driver — 7-phase PR pipeline
-│   │   └── spec-driver.md          # /spec-driver — 9-phase spec generation
+│   │   ├── run-pipeline.md          # /run-pipeline — 7-phase PR pipeline
+│   │   └── spec.md                  # /spec — 9-phase spec generation
 │   ├── skills/
 │   │   ├── add-skill/SKILL.md      # Create new opencode skill
 │   │   ├── branch/SKILL.md         # Branch naming conventions
@@ -30,12 +30,12 @@ opencode-config/
 │   │   ├── issue/SKILL.md          # GitHub issue creation
 │   │   ├── memory/SKILL.md         # opencode-memory usage guide
 │   │   ├── configure-opencode/SKILL.md # Canonical rule: write to .opencode/
-│   │   ├── pipeline-driver/SKILL.md # 7-phase pipeline orchestration
+│   │   ├── run-pipeline/SKILL.md # 7-phase pipeline orchestration
 │   │   ├── python-development/SKILL.md # Python dev patterns
 │   │   ├── release/SKILL.md        # Tag + GitHub Release
 │   │   ├── repo-init/SKILL.md      # New repository bootstrap
 │   │   ├── run-tests/SKILL.md      # Test runner guide
-│   │   └── spec-driver/SKILL.md    # 9-phase spec generation
+│   │   └── spec/SKILL.md           # 9-phase spec generation
 │   ├── tools/
 │   │   ├── pipeline-status.ts      # pipeline_status tool wrapper
 │   │   └── spec-status.ts          # spec_status tool wrapper

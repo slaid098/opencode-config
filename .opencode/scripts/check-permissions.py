@@ -29,7 +29,7 @@ DANGEROUS_PATTERNS = [
     ),
     (
         r"^gh pr merge\*?$",
-        "merge is done by main agent via pipeline-driver, not subagents. "
+        "merge is done by main agent via run-pipeline, not subagents. "
         "Use 'gh pr merge' from primary build/plan agent only (global "
         "opencode.json:195 has 'gh pr merge*: allow'). Per-agent 'gh pr "
         "merge*: deny' is the defense (see ADR-016). See ADR-006 for "
