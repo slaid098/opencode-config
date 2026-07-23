@@ -1,9 +1,9 @@
-# PR: Tunnel tool with toggle mode
-
 ---
-pr_number: <PR-NUMBER>
+pr_number: 34
 title: Tunnel tool with toggle mode
 ---
+
+# PR: Tunnel tool with toggle mode
 
 ## Что сделано
 - `.opencode/tools/tunnel.ts` — TS tool wrapper (toggle без args, вызывает `bash .opencode/scripts/tunnel.sh`)
