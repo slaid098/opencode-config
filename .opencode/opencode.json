@@ -1,0 +1,351 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "plugin": [
+      [
+        "@mathew-cf/opencode-memory",
+        {
+          "memoryDir": "{env:OPENCODE_MEMORY_DIR}"
+        }
+      ]
+    ],
+    "skills": {
+      "paths": [
+        ".opencode/skills"
+      ]
+    },
+    "compaction": {
+      "auto": true,
+      "prune": true,
+      "reserved": 100000
+    },
+    "disabled_providers": [],
+    "provider": {
+      "new_api": {
+        "name": "new api",
+        "npm": "@ai-sdk/openai-compatible",
+        "options": {
+          "baseURL": "{env:AI_PROVIDER_BASE_URL}",
+          "apiKey": "{env:AI_PROVIDER_API_KEY}"
+        },
+        "models": {
+          "gemini-3.5-flash": {
+            "name": "Gemini 3.5 Flash",
+            "reasoning": true,
+            "attachment": true,
+            "modalities": {
+              "input": [
+                "text",
+                "image"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "limit": {
+              "context": 250000,
+              "input": 250000,
+              "output": 16384
+            }
+          }
+        }
+      },
+      "openrouter": {
+        "models": {
+          "deepseek/deepseek-v4-flash": {
+            "name": "DeepSeek V4 Flash",
+            "reasoning": true,
+            "modalities": {
+              "input": [
+                "text"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "limit": {
+              "context": 250000,
+              "input": 250000,
+              "output": 16384
+            },
+            "variants": {
+              "low": {
+                "options": {
+                  "reasoning": {
+                    "effort": "low"
+                  }
+                }
+              },
+              "medium": {
+                "options": {
+                  "reasoning": {
+                    "effort": "medium"
+                  }
+                }
+              },
+              "high": {
+                "options": {
+                  "reasoning": {
+                    "effort": "high"
+                  }
+                }
+              },
+              "max": {
+                "options": {
+                  "reasoning": {
+                    "effort": "xhigh"
+                  }
+                }
+              }
+            }
+          },
+          "deepseek/deepseek-v4-pro": {
+            "name": "DeepSeek V4 Pro",
+            "reasoning": true,
+            "modalities": {
+              "input": [
+                "text"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "limit": {
+              "context": 250000,
+              "input": 250000,
+              "output": 16384
+            },
+            "variants": {
+              "low": {
+                "options": {
+                  "reasoning": {
+                    "effort": "low"
+                  }
+                }
+              },
+              "medium": {
+                "options": {
+                  "reasoning": {
+                    "effort": "medium"
+                  }
+                }
+              },
+              "high": {
+                "options": {
+                  "reasoning": {
+                    "effort": "high"
+                  }
+                }
+              },
+              "max": {
+                "options": {
+                  "reasoning": {
+                    "effort": "xhigh"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "permission": {
+      "edit": "allow",
+      "external_directory": "allow",
+      "doom_loop": "deny",
+      "read": {
+        "*.env": "deny",
+        ".env": "deny",
+        "**/.env": "deny",
+        "**/.env*": "deny",
+        "**/id_ed25519": "deny",
+        "**/id_rsa": "deny",
+        "**/id_ed25519.pub": "allow"
+      },
+      "bash": {
+        "cat .env*": "deny",
+        "*cat */.env*": "deny",
+        "env": "deny",
+        "printenv*": "deny",
+        "declare*": "deny",
+        "set": "deny",
+        "git add *": "allow",
+        "git commit *": "allow",
+        "git push *": "allow",
+        "git checkout *": "allow",
+        "git branch *": "allow",
+        "git status*": "allow",
+        "git diff*": "allow",
+        "git log*": "allow",
+        "git pull*": "allow",
+        "git -C * add *": "allow",
+        "git -C * commit *": "allow",
+        "git -C * push *": "allow",
+        "git -C * checkout *": "allow",
+        "git -C * branch *": "allow",
+        "git -C * status*": "allow",
+        "git -C * diff*": "allow",
+        "git -C * log*": "allow",
+        "git -C * reset *": "deny",
+        "git -C * clean *": "deny",
+        "git -C * branch -D *": "ask",
+        "git -C * branch -d *": "ask",
+        "git -C * push --delete *": "ask",
+        "git -C * push origin --delete *": "ask",
+        "gh pr create*": "allow",
+        "gh pr merge*": "allow",
+        "gh pr list*": "allow",
+        "gh pr status*": "allow",
+        "gh run*": "allow",
+        "gh issue*": "allow",
+        "gh pr diff*": "allow",
+        "gh pr view*": "allow",
+        "gh pr comment*": "allow",
+        "gh pr review*": "allow",
+        "gh api repos/*/actions/runs*": "allow",
+        "gh api repos/*/issues*": "allow",
+        "gh run list*": "allow",
+        "gh run view*": "allow",
+        "docker ps*": "allow",
+        "docker logs*": "allow",
+        "uv run pytest*": "allow",
+        "uv run ruff*": "allow",
+        "uv run poe*": "allow",
+        "uv *": "allow",
+        "npx *": "allow",
+        "npm *": "allow",
+        "python*": "allow",
+        "python3 *pipeline-status.py*": "deny",
+        "python3 config/scripts/pipeline-status.py*": "deny",
+        "python3 */pipeline-status.py*": "deny",
+        "python *pipeline-status.py*": "deny",
+        "python */pipeline-status.py*": "deny",
+        "python3 *spec-status.py*": "deny",
+        "python3 config/scripts/spec-status.py*": "deny",
+        "python3 */spec-status.py*": "deny",
+        "python *spec-status.py*": "deny",
+        "python */spec-status.py*": "deny",
+        "mkdir*": "allow",
+        "git branch -D *": "ask",
+        "git branch -d *": "ask",
+        "git push --delete *": "ask",
+        "git push origin --delete *": "ask",
+        "gh repo delete *": "deny",
+        "gh pr close *": "ask",
+        "docker restart *": "ask",
+        "docker stop *": "ask",
+        "docker rm *": "ask",
+        "docker exec *": "ask",
+        "docker system prune*": "ask",
+        "docker volume rm *": "ask",
+        "rm *": "ask",
+        "del *": "ask",
+        "Remove-Item *": "ask",
+        "git reset *": "deny",
+        "git clean *": "deny",
+        "vastai *": "ask",
+        "vastai show*": "allow",
+        "vastai search*": "allow",
+        "kill *": "ask",
+        "nohup *": "ask",
+
+        "cat *id_ed25519*": "deny",
+        "*cat *ssh/id_ed25519*": "deny",
+        "ssh * mkfs*": "deny",
+        "ssh * dd *": "deny",
+        "ssh * fdisk*": "deny",
+
+        "ssh * hostname": "allow",
+        "ssh * uname *": "allow",
+        "ssh * df *": "allow",
+        "ssh * du *": "allow",
+        "ssh * free *": "allow",
+        "ssh * ls *": "allow",
+        "ssh * cat /etc/*": "allow",
+        "ssh * tail *": "allow",
+        "ssh * head *": "allow",
+        "ssh * grep *": "allow",
+        "ssh * find *": "allow",
+        "ssh * ps *": "allow",
+        "ssh * systemctl status *": "allow",
+        "ssh * docker ps*": "allow",
+        "ssh * docker logs*": "allow",
+        "ssh * docker inspect*": "allow",
+        "ssh * docker images*": "allow",
+        "ssh * docker stats*": "allow",
+        "ssh * git pull*": "allow",
+        "ssh * netstat *": "allow",
+        "ssh * ss *": "allow",
+        "ssh * uptime": "allow",
+        "ssh * uptime*": "allow",
+        "ssh * whoami": "allow",
+        "ssh * ip *": "allow",
+        "ssh * powershell -Command Get-*": "allow",
+        "ssh * powershell -Command Test-*": "allow",
+
+        "ssh * cat *.env*": "ask",
+        "ssh * cat .env*": "ask",
+        "ssh * rm *": "ask",
+        "ssh * rmdir *": "ask",
+        "ssh * docker restart*": "ask",
+        "ssh * docker stop*": "ask",
+        "ssh * docker rm*": "ask",
+        "ssh * docker rmi*": "ask",
+        "ssh * docker update*": "ask",
+        "ssh * systemctl restart*": "ask",
+        "ssh * systemctl stop*": "ask",
+        "ssh * apt *": "ask",
+        "ssh * yum *": "ask",
+        "ssh * mv *": "ask",
+        "ssh * chmod *": "ask",
+        "ssh * chown *": "ask",
+        "ssh * reboot*": "ask",
+        "ssh * shutdown*": "ask",
+        "ssh * powershell -Command Set-*": "ask",
+        "ssh * powershell -Command New-*": "ask",
+        "ssh * powershell -Command Remove-*": "ask",
+        "ssh * powershell -Command Restart-*": "ask",
+        "ssh * powershell -Command Stop-*": "ask",
+
+        "ssh *": "ask"
+      }
+    },
+    "agent": {
+      "general": {
+        "steps": 100
+      }
+    },
+    "mcp": {
+      "browser": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "@modelcontextprotocol/server-puppeteer"
+        ],
+        "enabled": true
+      },
+      "context7": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "@upstash/context7-mcp",
+          "--api-key",
+          "{env:CONTEX7_API_KEY}"
+        ],
+        "enabled": true
+      },
+      "antidetect-browser": {
+        "type": "remote",
+        "url": "{env:ANTIDETECT_BROWSER_MCP_URL}",
+        "enabled": true,
+        "timeout": 300000
+      },
+      "integrations": {
+        "type": "remote",
+        "url": "https://integrations.sh/mcp",
+        "enabled": true,
+        "timeout": 300000
+      }
+    }
+  }
