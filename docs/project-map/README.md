@@ -1,6 +1,6 @@
 # Project Map
 
-opencode-config — Docker-based AI coding assistant with persistent memory (opencode configuration).
+opencode-config — Docker-based AI coding assistant with persistent memory (opencode configuration). Runs in Docker via `docker-compose.yml` (dind + opencode services).
 
 ## Structure
 
@@ -81,6 +81,9 @@ opencode-config/
 ├── pyproject.toml                 # Python project (uv, ruff, pytest config)
 ├── uv.lock                        # Locked deps for Python project
 ├── .pre-commit-config.yaml        # ruff + UV hooks
+├── docker-compose.yml             # 2 services (dind + opencode), opencode_network, 4 bind mounts — PR#24
+├── Dockerfile                     # node:20-slim + uv + gh + chromium + docker.io + opencode-ai + repomix — PR#24
+├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24
 ├── app_data/
 │   ├── workspaces/                # Agent working directory (.gitkeep)
 │   └── ssh/                       # SSH keys, not in git (.gitkeep)
