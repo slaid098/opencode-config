@@ -1,4 +1,4 @@
-# ADR-009: Commands rename to verbs
+# ADR-009: Commands rename to verbs (PR #29)
 
 ## Статус
 Accepted

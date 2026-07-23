@@ -1,4 +1,4 @@
-# PR: Commands rename /run-pipeline + /spec
+# PR #29: Commands rename /run-pipeline + /spec
 
 ## Что сделано
 - Rename: /pipeline-driver → /run-pipeline (command + skill dir + skill() ref)
