@@ -20,7 +20,7 @@ jobs:
 
   lint:
     needs: bootstrap
-    if: hashFiles('src/**/*.py') != ''
+    if: ${{ hashFiles('src/**/*.py') != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -35,7 +35,7 @@ jobs:
 
   typecheck:
     needs: bootstrap
-    if: hashFiles('src/**/*.py') != ''
+    if: ${{ hashFiles('src/**/*.py') != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -49,7 +49,7 @@ jobs:
 
   test:
     needs: bootstrap
-    if: hashFiles('src/**/*.py') != ''
+    if: ${{ hashFiles('src/**/*.py') != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -70,7 +70,7 @@ jobs:
 
   complexity:
     needs: bootstrap
-    if: hashFiles('src/**/*.py') != ''
+    if: ${{ hashFiles('src/**/*.py') != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
