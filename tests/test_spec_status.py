@@ -1,4 +1,4 @@
-"""Tests for config/scripts/spec-status.py — spec phase oracle.
+"""Tests for .opencode/scripts/spec-status.py — spec phase oracle.
 
 All gh/git calls are mocked via monkeypatch on the module's ``run_cmd``
 helper. Filesystem checks (``docs/spec/*.md``) use ``tmp_path`` with
@@ -19,7 +19,7 @@ from pathlib import Path
 
 import pytest
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "config" / "scripts" / "spec-status.py"
+SCRIPT_PATH = Path(__file__).resolve().parent.parent / ".opencode" / "scripts" / "spec-status.py"
 spec = importlib.util.spec_from_file_location("spec_status", SCRIPT_PATH)
 ss = importlib.util.module_from_spec(spec)
 sys.modules["spec_status"] = ss
@@ -119,7 +119,7 @@ def test_parse_remote_url_https():
     assert ss.parse_remote_url("https://github.com/slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -127,7 +127,7 @@ def test_parse_remote_url_https_no_git_suffix():
     assert ss.parse_remote_url("https://github.com/slaid098/opencode-config") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -135,7 +135,7 @@ def test_parse_remote_url_ssh():
     assert ss.parse_remote_url("git@github.com:slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -143,7 +143,7 @@ def test_parse_remote_url_ssh_no_git_suffix():
     assert ss.parse_remote_url("git@github.com:slaid098/opencode-config") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 

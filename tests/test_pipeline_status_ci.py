@@ -1,4 +1,4 @@
-"""Tests for ``check_ci`` in config/scripts/pipeline-status.py — CI phase.
+"""Tests for ``check_ci`` in .opencode/scripts/pipeline-status.py — CI phase.
 
 Covers Actions API gate via ``gh api repos/<owner>/<repo>/actions/runs``.
 All gh/git calls are mocked via monkeypatch on the module's ``run_cmd``
@@ -25,7 +25,9 @@ from pathlib import Path
 
 import pytest
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "config" / "scripts" / "pipeline-status.py"
+SCRIPT_PATH = (
+    Path(__file__).resolve().parent.parent / ".opencode" / "scripts" / "pipeline-status.py"
+)
 spec = importlib.util.spec_from_file_location("pipeline_status_ci", SCRIPT_PATH)
 ps = importlib.util.module_from_spec(spec)
 sys.modules["pipeline_status_ci"] = ps

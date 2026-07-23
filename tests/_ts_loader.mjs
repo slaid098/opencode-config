@@ -1,4 +1,4 @@
-// Test harness for config/tools/pipeline-status.ts.
+// Test harness for .opencode/tools/pipeline-status.ts.
 //
 // Why this file: there is no bun/tsx/esbuild on the CI runner (only node +
 // pytest). The pipeline-status.ts tool is a TypeScript module (Bun runtime
@@ -26,7 +26,7 @@ import path from "node:path"
 import { spawnSync } from "node:child_process"
 
 const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), "..", "..")
-const DEFAULT_TS_FILE = path.join(REPO_ROOT, "config", "tools", "pipeline-status.ts")
+const DEFAULT_TS_FILE = path.join(REPO_ROOT, ".opencode", "tools", "pipeline-status.ts")
 // Parameterize via env var TS_FILE (relative to REPO_ROOT) so other TS tool
 // wrappers (e.g. spec-status.ts) can be loaded by the same harness without
 // breaking existing callers that don't set TS_FILE (default: pipeline-status.ts).
@@ -63,8 +63,8 @@ function stripTs(src) {
   //   1) `import { spawnSync } from "child_process"` -> `const { spawnSync } = require("child_process")`
   //   2) `import { tool } from "@opencode-ai/plugin"` -> `const tool = (x) => x`
   //   3) `import path from "path"` -> `const path = require("path")`
-  //   4) `import.meta.dir` -> a stub pointing at config/tools (so the script
-  //      path resolves to config/scripts/pipeline-status.py)
+//   4) `import.meta.dir` -> a stub pointing at .opencode/tools (so the script
+//      path resolves to .opencode/scripts/pipeline-status.py)
   //   5) `args: z.ZodObject` -> the args are referenced inside execute as
   //      `args.pr_number`; the schema itself is unused at runtime here.
   //   6) Strip `: type` annotations and `async execute(args)` stays.

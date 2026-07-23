@@ -1,5 +1,5 @@
 /**
- * Tests for config/tools/pipeline-status.ts — the pipeline_status custom tool.
+ * Tests for .opencode/tools/pipeline-status.ts — the pipeline_status custom tool.
  *
  * These tests target the spawnSync-based implementation that replaced the
  * original `Bun.$` spawn (issue #99 — pipeline_status tool fails in plan-mode).
@@ -25,7 +25,7 @@ import path from "path"
 
 // Load the tool under test. Because the tool uses `import.meta.dir`, we
 // re-resolve the script path explicitly here for testing.
-const TOOL_SRC = path.resolve(import.meta.dir, "..", "config", "tools", "pipeline-status.ts")
+const TOOL_SRC = path.resolve(import.meta.dir, "..", ".opencode", "tools", "pipeline-status.ts")
 // Re-import as a fresh module so the tool's default export is loaded.
 const { default: pipelineStatusTool } = await import(TOOL_SRC)
 
@@ -83,14 +83,14 @@ describe("pipeline_status tool", () => {
     expect(result).toContain("boom")
   })
 
-  test("execute real pipeline-status.py 94 (integration)", async () => {
-    const result = await pipelineStatusTool.execute({ pr_number: 94 }, {
+  test("execute real pipeline-status.py 23 (integration)", async () => {
+    const result = await pipelineStatusTool.execute({ pr_number: 23 }, {
       sessionID: "t", messageID: "t", agent: "t",
       directory: ".", worktree: ".",
       abort: new AbortController().signal,
       metadata() {}, async ask() {},
     })
-    expect(result).toContain("PR #94")
+    expect(result).toContain("PR #23")
     expect(result).toMatch(/[✅❌]/)
   })
 
@@ -98,13 +98,13 @@ describe("pipeline_status tool", () => {
     // Reproduce plan-mode: ToolContext.abort is aborted.
     const ctrl = new AbortController()
     ctrl.abort()
-    const result = await pipelineStatusTool.execute({ pr_number: 94 }, {
+    const result = await pipelineStatusTool.execute({ pr_number: 23 }, {
       sessionID: "t", messageID: "t", agent: "t",
       directory: ".", worktree: ".",
       abort: ctrl.signal,
       metadata() {}, async ask() {},
     })
     // spawnSync ignores the AbortSignal, so the tool completes normally.
-    expect(result).toContain("PR #94")
+    expect(result).toContain("PR #23")
   })
 })

@@ -1,14 +1,14 @@
-"""Tests for config/tools/spec-status.ts — the spec_status custom tool.
+"""Tests for .opencode/tools/spec-status.ts — the spec_status custom tool.
 
 Mirrors ``tests/test_pipeline_status_tool.py``: exercises the tool's
 ``execute()`` function via ``tests/_ts_loader.mjs`` (a node CommonJS
 sandbox that strips TS-only syntax, stubs ``@opencode-ai/plugin``, and
-replaces ``import.meta.dir`` with the real ``config/tools`` directory).
+replaces ``import.meta.dir`` with the real ``.opencode/tools`` directory).
 
 The loader is parameterized via the ``TS_FILE`` env var (PR#109) so the
 same harness works for both ``pipeline-status.ts`` and ``spec-status.ts``
 without breaking existing callers (``TS_FILE`` unset → defaults to
-``pipeline-status.ts``). These tests set ``TS_FILE=config/tools/spec-status.ts``.
+``pipeline-status.ts``). These tests set ``TS_FILE=.opencode/tools/spec-status.ts``.
 
 Modes used (same as pipeline-status tool tests):
 - ``load`` — sanity-check that the tool loads and has the expected args.
@@ -31,8 +31,8 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOADER = REPO_ROOT / "tests" / "_ts_loader.mjs"
-TS_FILE = REPO_ROOT / "config" / "tools" / "spec-status.ts"
-TS_FILE_REL = "config/tools/spec-status.ts"
+TS_FILE = REPO_ROOT / ".opencode" / "tools" / "spec-status.ts"
+TS_FILE_REL = ".opencode/tools/spec-status.ts"
 
 
 def _gh_available() -> bool:
@@ -98,7 +98,7 @@ def test_execute_no_validate_flag():
     assert len(calls) == 1, f"expected 1 spawnSync call, got {len(calls)}"
     call = calls[0]
     assert call["cmd"] == "python3"
-    assert call["args"][0] == str(REPO_ROOT / "config" / "scripts" / "spec-status.py"), (
+    assert call["args"][0] == str(REPO_ROOT / ".opencode" / "scripts" / "spec-status.py"), (
         f"script path mismatch: {call['args'][0]}"
     )
     # No --validate in args (only the script path is present).
@@ -158,7 +158,7 @@ def test_execute_real_spec_status():
     there is no ``docs/spec/``, so all 9 phases will be ❌ — that's a
     valid output (exit 0) and confirms the script ran through the loader.
     """
-    if not (REPO_ROOT / "config" / "scripts" / "spec-status.py").exists():
+    if not (REPO_ROOT / ".opencode" / "scripts" / "spec-status.py").exists():
         pytest.skip("spec-status.py not present")
     out = _run_loader("exec_real", "false")
     if out.get("error"):

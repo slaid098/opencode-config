@@ -1,4 +1,4 @@
-"""Tests for config/tools/pipeline-status.ts — the pipeline_status custom tool.
+"""Tests for .opencode/tools/pipeline-status.ts — the pipeline_status custom tool.
 
 Covers the spawnSync-based implementation that replaced the original
 ``Bun.$`` spawn (issue #99 / PR-?).
@@ -10,7 +10,7 @@ exercise the tool's ``execute()`` function via a tiny CommonJS loader
 - strips TS-only import type annotations,
 - stubs ``@opencode-ai/plugin``'s ``tool()`` (identity) + ``tool.schema``
   (chainable zod shim),
-- replaces ``import.meta.dir`` with the real ``config/tools`` directory,
+- replaces ``import.meta.dir`` with the real ``.opencode/tools`` directory,
 - exposes the ``execute()`` function via a JSON-stdout protocol.
 
 Three modes are used by these tests:
@@ -20,7 +20,7 @@ Three modes are used by these tests:
   (b) stdout is trimmed on success,
   (c) non-zero exit returns an actionable error message.
 - ``exec_real`` — call execute against the real pipeline-status.py
-  (integration test, PR #94 is a known-good reference).
+  (integration test, PR #23 is a known-good reference).
 """
 
 import json
@@ -31,7 +31,7 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOADER = REPO_ROOT / "tests" / "_ts_loader.mjs"
-TS_FILE = REPO_ROOT / "config" / "tools" / "pipeline-status.ts"
+TS_FILE = REPO_ROOT / ".opencode" / "tools" / "pipeline-status.ts"
 
 
 def _gh_available() -> bool:
@@ -94,7 +94,7 @@ def test_execute_passes_correct_args():
     assert len(calls) == 1, f"expected 1 spawnSync call, got {len(calls)}"
     call = calls[0]
     assert call["cmd"] == "python3"
-    assert call["args"][0] == str(REPO_ROOT / "config" / "scripts" / "pipeline-status.py"), (
+    assert call["args"][0] == str(REPO_ROOT / ".opencode" / "scripts" / "pipeline-status.py"), (
         f"script path mismatch: {call['args'][0]}"
     )
     assert call["args"][1] == "94", f"pr_number must be stringified: {call['args'][1]}"
@@ -164,19 +164,19 @@ def test_execute_exit_null_returns_error():
 
 
 @pytest.mark.skipif(not _GH_OK, reason=_SKIP_REASON)
-def test_execute_real_pipeline_status_94():
-    """Integration: execute({pr_number: 94}) returns the real script output.
+def test_execute_real_pipeline_status_23():
+    """Integration: execute({pr_number: 23}) returns the real script output.
 
-    PR #94 is a known-good reference (merged, has handoff, ADR, docs-review
-    marker). The output should contain "PR #94" and "Status:" or phase list.
+    PR #23 is a known-good reference (merged, has handoff, ADR, docs-review
+    marker). The output should contain "PR #23" and "Status:" or phase list.
     """
-    if not (REPO_ROOT / "config" / "scripts" / "pipeline-status.py").exists():
+    if not (REPO_ROOT / ".opencode" / "scripts" / "pipeline-status.py").exists():
         pytest.skip("pipeline-status.py not present")
-    out = _run_loader("exec_real", "94")
+    out = _run_loader("exec_real", "23")
     if out.get("error"):
         pytest.fail(f"execute raised: {out['error']}")
     result = out["result"]
-    assert "PR #94" in result, f"expected 'PR #94' in output, got first 200: {result[:200]!r}"
+    assert "PR #23" in result, f"expected 'PR #23' in output, got first 200: {result[:200]!r}"
     # The pipeline-status.py output uses ✅/❌ phase markers. Either one
     # confirms the script ran and returned structured output.
     assert "✅" in result or "❌" in result, (
@@ -204,8 +204,8 @@ def test_execute_aborts_do_not_break_spawn_sync():
     blocked the agent loop). The handoff contains the abort-vs-spawnSync
     experiment results for posterity.
     """
-    out = _run_loader("exec_real", "94")
+    out = _run_loader("exec_real", "23")
     assert "error" not in out or not out["error"], (
         f"execute raised despite spawnSync being abort-resilient: {out.get('error')}"
     )
-    assert "PR #94" in out["result"]
+    assert "PR #23" in out["result"]

@@ -1,4 +1,4 @@
-"""Tests for config/scripts/pipeline-status.py — mandatory ADR by PR#.
+"""Tests for .opencode/scripts/pipeline-status.py — mandatory ADR by PR#.
 
 Verifies the deterministic check_adr: ADR is required for every PR and is
 found by ``*-pr-<N>-*.md`` filename pattern (no regex guessing in handoff).
@@ -8,7 +8,9 @@ import importlib.util
 import sys
 from pathlib import Path
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "config" / "scripts" / "pipeline-status.py"
+SCRIPT_PATH = (
+    Path(__file__).resolve().parent.parent / ".opencode" / "scripts" / "pipeline-status.py"
+)
 spec = importlib.util.spec_from_file_location("pipeline_status", SCRIPT_PATH)
 ps = importlib.util.module_from_spec(spec)
 sys.modules["pipeline_status"] = ps

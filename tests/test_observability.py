@@ -1,4 +1,4 @@
-"""Tests for config/scripts/observability.py — log parser for denials/errors.
+"""Tests for .opencode/scripts/observability.py — log parser for denials/errors.
 
 Pattern: direct calls for parse_line/_process_line, tmp_path + monkeypatch on
 obs.LOG_PATH for main() tests. Loading via importlib.util.spec_from_file_location
@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "config" / "scripts" / "observability.py"
+SCRIPT_PATH = Path(__file__).resolve().parent.parent / ".opencode" / "scripts" / "observability.py"
 spec = importlib.util.spec_from_file_location("observability", SCRIPT_PATH)
 obs = importlib.util.module_from_spec(spec)
 sys.modules["observability"] = obs

@@ -1,4 +1,4 @@
-"""Tests for config/scripts/check-adr-refs.py — dangling ADR reference guard.
+"""Tests for .opencode/scripts/check-adr-refs.py — dangling ADR reference guard.
 
 Covers the deterministic ADR-ref guard: clean repo passes, a dangling
 ``ADR-999`` in a temp handoff is detected, self-reference inside an
@@ -21,7 +21,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SCRIPT_PATH = REPO_ROOT / "config" / "scripts" / "check-adr-refs.py"
+SCRIPT_PATH = REPO_ROOT / ".opencode" / "scripts" / "check-adr-refs.py"
 
 
 def _load_script():

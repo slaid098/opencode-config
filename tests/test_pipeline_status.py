@@ -1,4 +1,4 @@
-"""Tests for config/scripts/pipeline-status.py — pipeline oracle.
+"""Tests for .opencode/scripts/pipeline-status.py — pipeline oracle.
 
 All gh/git calls are mocked via monkeypatch on the module's ``run_cmd``
 helper. Filesystem checks (handoff, ADR, memory) use tmp_path.
@@ -17,7 +17,9 @@ from pathlib import Path
 
 import pytest
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "config" / "scripts" / "pipeline-status.py"
+SCRIPT_PATH = (
+    Path(__file__).resolve().parent.parent / ".opencode" / "scripts" / "pipeline-status.py"
+)
 spec = importlib.util.spec_from_file_location("pipeline_status", SCRIPT_PATH)
 ps = importlib.util.module_from_spec(spec)
 sys.modules["pipeline_status"] = ps
@@ -88,7 +90,7 @@ def test_parse_remote_url_https():
     assert ps.parse_remote_url("https://github.com/slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -96,7 +98,7 @@ def test_parse_remote_url_https_no_git_suffix():
     assert ps.parse_remote_url("https://github.com/slaid098/opencode-config") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -104,7 +106,7 @@ def test_parse_remote_url_ssh():
     assert ps.parse_remote_url("git@github.com:slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -112,7 +114,7 @@ def test_parse_remote_url_ssh_no_git_suffix():
     assert ps.parse_remote_url("git@github.com:slaid098/opencode-config") == (
         "github.com",
         "slaid098",
-        "opencode",
+        "opencode-config",
     )
 
 
@@ -687,7 +689,7 @@ def test_get_memory_file_path(monkeypatch):
         ),
     )
     path = ps.get_memory_file_path()
-    assert path == ps.MEMORY_DIR / "github.com" / "slaid098" / "opencode.md"
+    assert path == ps.MEMORY_DIR / "github.com" / "slaid098" / "opencode-config.md"
 
 
 def test_get_memory_file_path_ssh(monkeypatch):
@@ -697,7 +699,7 @@ def test_get_memory_file_path_ssh(monkeypatch):
         mock_run_cmd({("git", "remote"): (0, "git@github.com:slaid098/opencode-config.git\n", "")}),
     )
     path = ps.get_memory_file_path()
-    assert path.name == "opencode.md"
+    assert path.name == "opencode-config.md"
     assert "github.com" in str(path)
     assert "slaid098" in str(path)
 

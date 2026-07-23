@@ -1,4 +1,4 @@
-"""Tests for config/scripts/check-permissions.py — dangerous permission rules guard.
+"""Tests for .opencode/scripts/check-permissions.py — dangerous permission rules guard.
 
 Covers the ``DANGEROUS_PATTERNS`` guard: clean configs pass, ``gh pr checks*``
 in agent frontmatter or in ``opencode.json`` triggers a violation with the
@@ -25,7 +25,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SCRIPT_PATH = REPO_ROOT / "config" / "scripts" / "check-permissions.py"
+SCRIPT_PATH = REPO_ROOT / ".opencode" / "scripts" / "check-permissions.py"
 
 
 def _load_script():
