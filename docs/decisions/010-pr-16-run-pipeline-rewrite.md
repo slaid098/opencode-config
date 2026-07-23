@@ -4,7 +4,7 @@
 Accepted
 
 ## Контекст
-MERGE phase выполнялась main agent'ом через raw `gh pr merge` (см. `run-pipeline/SKILL.md` Rules + `pipeline-status.py` `NEXT_ACTIONS["MERGE"]`). Это конфликтует с pure-orchestrator моделью: main agent = plan/delegate/verify, НЕ исполняет mutations напрямую. ADR-012 tool-led philosophy предписывает оборачивать side-effects в tools, чтобы: (1) сохранить orchestrator-контракт, (2) дать uniform API surface, (3) централизовать guard logic.
+MERGE phase выполнялась main agent'ом через raw `gh pr merge` (см. `run-pipeline/SKILL.md` Rules + `pipeline-status.py` `NEXT_ACTIONS["MERGE"]`). Это конфликтует с pure-orchestrator моделью: main agent = plan/delegate/verify, НЕ исполняет mutations напрямую. Tool-led philosophy (обёртка side-effects в tools, imported из приватного репо как принцип без локального ADR) предписывает: (1) сохранить orchestrator-контракт, (2) дать uniform API surface, (3) централизовать guard logic.
 
 Дополнительно: `config/` paths в `run-pipeline/SKILL.md` (`config/scripts/scaffold-handoff.sh`) stale после PR#23 (миграция config/ → .opencode/). Phase 0 "load issue skill" ambiguity — противоречит PR#28 issue-skill rewrite (full subagent delegation).
 
@@ -17,13 +17,13 @@ MERGE phase выполнялась main agent'ом через raw `gh pr merge` 
 - Тест `test_get_next_action` MERGE assertion обновлён.
 
 ## Альтернативы
-- **Dedicated merger subagent** — отклонено. Subagent = task executor с own context, ослабляет security guard (PR#62: merge by main agent, НЕ subagent). `merge_pr` tool вызывается main agent'ом напрямую — preserves guard + orchestrator-контракт.
+- **Dedicated merger subagent** — отклонено. Subagent = task executor с own context, ослабляет security guard (merge by main agent, НЕ subagent — established guard). `merge_pr` tool вызывается main agent'ом напрямую — preserves guard + orchestrator-контракт.
 - **Explicit exception в AGENTS.md** ("main agent may run gh pr merge") — отклонено. Violates pure-orchestrator model, создаёт precedent для других raw-bash exceptions.
-- **Keep raw bash + документировать** — отклонено. Orchestrator conflict не resolved, ADR-012 tool-led не honoured.
+- **Keep raw bash + документировать** — отклонено. Orchestrator conflict не resolved, tool-led philosophy не honoured.
 - **`check-permissions.py` runtime merge guard в tool** — рассмотрено, отложено. `check-permissions.py` сейчас только linting (CI-time), не runtime guard. Реализация runtime guard — follow-up (potential ADR).
 
 ## Связанные
-- ADR-012 (tool-led philosophy) — referenced из приватного репо, принцип honoured.
+- Tool-led philosophy — referenced из приватного репо как принцип (без локального ADR-номера).
 - PR#28 (issue-skill full subagent delegation) — Phase 0 ambiguity resolved в том же направлении.
 - PR#29 (commands rename: `/pipeline-driver` → `/run-pipeline`) — tool names (`pipeline_status`, `merge_pr`) independent от command names.
 - Issue #10 (AGENTS.md orchestrator rewrite) — pending, references `/run-pipeline`.

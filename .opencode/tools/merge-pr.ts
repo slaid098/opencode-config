@@ -2,7 +2,7 @@ import { spawnSync } from "child_process"
 import { tool } from "@opencode-ai/plugin"
 
 export default tool({
-  description: "Merge a PR via squash + delete branch. Orchestrator-safe wrapper for `gh pr merge N --squash --delete-branch`. Main agent calls this tool instead of raw bash, aligning with the pure-orchestrator model (ADR-012 tool-led).",
+  description: "Merge a PR via squash + delete branch. Orchestrator-safe wrapper for `gh pr merge N --squash --delete-branch`. Main agent calls this tool instead of raw bash, aligning with the pure-orchestrator model (tool-led philosophy, see ADR-010).",
   args: {
     pr_number: tool.schema.number().describe("PR number to merge"),
   },
