@@ -1,11 +1,16 @@
 ---
 name: repo-init
-description: Use when creating a new repository or initializing repo settings. Covers GitHub repo creation, branch protection, squash merge, pre-commit hooks, linters (ruff/mypy/xenon for Python, Biome/Knip/Vitest for JS/TS), CI/CD, Dependabot, LICENSE, .gitignore. Also when user says "новый репо", "создай репозиторий", "настрой репо".
+description: Sequential checklist: create GitHub remote → configure settings/branch protection → scaffold project files (Python/JS). Use when starting a new repo. Also when user says "новый репо", "создай репозиторий", "настрой репо".
 ---
 
 # Repo Init
 
-Полный чек-лист инициализации нового репозитория. Все шаблоны — внутри, берутся из эталонных репо (video_uniq, yt-video-downloader, opencode-voice-dictation, slaid098-dev).
+Полный чек-лист инициализации нового репозитория. Все шаблоны — внутри, берутся из эталонных репозиториев (reference repos).
+
+## Фазы
+
+- **Phase A — GitHub remote** (шаги 1-3, выполняется один раз): создание репо, настройки merge, защита ветки. Требует локального git-репо с initial commit.
+- **Phase B — Project scaffolding** (шаги 4-9, по шаблонам): Python/JS файлы, Dependabot, LICENSE, .editorconfig, pre-commit, верификация. Можно повторно использовать для существующего репо (skip Phase A).
 
 ## Содержание
 
@@ -18,6 +23,25 @@ description: Use when creating a new repository or initializing repo settings. C
 7. [Общие файлы](#7-общие-файлы)
 8. [Установка pre-commit](#8-установка-pre-commit)
 9. [Чек-лист верификации](#9-чек-лист-верификации)
+
+---
+
+## Phase A — GitHub remote
+
+> Шаги 1-3 выполняются один раз для нового репо. Требуют локального git-репо с initial commit.
+
+## 0. Prerequisite: git init + initial commit
+
+Перед `gh repo create --source=.` локальный каталог должен быть git-репо с хотя бы одним коммитом (`--source=.` пушит текущую ветку; без коммита — пустой репо).
+
+```bash
+git init
+echo "# <repo-name>" > README.md
+git add README.md
+git commit -m "chore: initial commit"
+```
+
+Если bare-repo без initial commit — `gh repo create --source=.` создаст remote, но push будет пустым, а main branch не появится → branch protection упадёт.
 
 ---
 
@@ -43,7 +67,7 @@ gh auth setup-git
 
 ## 2. Настройки репозитория
 
-Squash-only merge, auto-delete branch после merge. Эталон — video_uniq:
+Squash-only merge, auto-delete branch после merge:
 
 ```bash
 gh api repos/<owner>/<repo-name> \
@@ -108,6 +132,10 @@ EOF
 `required_status_checks` заполняется именами CI-джобов после первого пуша (см. шаблоны CI ниже). Имена джобов: `lint`, `typecheck`, `test`, `complexity` (Python) или `check` (JS/TS).
 
 ---
+
+## Phase B — Project scaffolding
+
+> Шаги 4-9 — шаблоны файлов для Python или JS/TS проекта. Можно применять к существующему репо (skip Phase A). Не зависят от GitHub remote.
 
 ## 4. Python-проект
 
