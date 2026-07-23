@@ -1,0 +1,33 @@
+name: Permission Security Check
+
+on:
+  pull_request:
+    paths:
+      - '.opencode/opencode.json'
+      - '.opencode/agents/**'
+      - '.opencode/scripts/check-permissions.py'
+      - '.github/workflows/permissions-check.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f .opencode/scripts/check-permissions.py ]; then
+            echo "has_script=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_script=false" >> $GITHUB_OUTPUT
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.check.outputs.has_script == 'true'
+        with:
+          python-version: "3.12"
+      - run: python3 .opencode/scripts/check-permissions.py
+        if: steps.check.outputs.has_script == 'true'

@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE']
+  push:
+    branches: [main]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    outputs:
+      has_src: ${{ steps.check.outputs.has_src }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -n "$(find src/ -name '*.py' -print -quit 2>/dev/null)" ]; then
+            echo "has_src=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_src=false" >> $GITHUB_OUTPUT
+          fi
+      - run: echo "CI bootstrap OK"
+
+  lint:
+    needs: bootstrap
+    if: needs.bootstrap.outputs.has_src == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run ruff check src/ tests/ .opencode/scripts/
+      - run: uv run ruff format --check src/ tests/ .opencode/scripts/
+
+  typecheck:
+    needs: bootstrap
+    if: needs.bootstrap.outputs.has_src == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run mypy src/
+
+  test:
+    needs: bootstrap
+    if: needs.bootstrap.outputs.has_src == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev --python ${{ matrix.python }}
+      - run: uv run --python ${{ matrix.python }} pytest
+
+  complexity:
+    needs: bootstrap
+    if: needs.bootstrap.outputs.has_src == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run xenon --max-absolute B --max-modules A --max-average A src/
