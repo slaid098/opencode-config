@@ -1,0 +1,24 @@
+name: ADR References Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'config/**'
+      - '**/*.md'
+      - '.github/workflows/adr-check.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 config/scripts/check-adr-refs.py

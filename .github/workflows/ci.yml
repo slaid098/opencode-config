@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE']
+  push:
+    branches: [master]
+    paths-ignore: ['**/*.md', 'docs/**', 'LICENSE']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run ruff check src/ tests/ config/scripts/
+      - run: uv run ruff format --check src/ tests/ config/scripts/
+
+  typecheck:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run mypy src/
+
+  test:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.14 excluded: no prebuilt binary for Ubuntu 20.04 (myoung34/github-runner base image)
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev --python ${{ matrix.python }}
+      - run: uv run --python ${{ matrix.python }} pytest
+
+  complexity:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --extra dev
+      - run: uv run xenon --max-absolute B --max-modules A --max-average A src/
