@@ -33,7 +33,7 @@ spec.loader.exec_module(ps)
 
 GIT_REMOTE_MOCK: tuple[tuple[str, ...], tuple[int, str, str]] = (
     ("git", "remote"),
-    (0, "https://github.com/slaid098/opencode.git\n", ""),
+    (0, "https://github.com/slaid098/opencode-config.git\n", ""),
 )
 
 
@@ -434,7 +434,7 @@ def test_ci_uses_dynamic_repo_full_name(monkeypatch):
 
     Mocks a non-opencode remote (``slaid098/media-gen``) and asserts that the
     ``gh api`` call uses ``repos/slaid098/media-gen/actions/runs`` (dynamic),
-    not a hardcoded ``slaid098/opencode``.
+    not a hardcoded ``slaid098/opencode-config``.
     """
     captured_args: list[list[str]] = []
 
@@ -455,7 +455,7 @@ def test_ci_uses_dynamic_repo_full_name(monkeypatch):
     api_calls = [a for a in captured_args if a[:2] == ["gh", "api"]]
     assert len(api_calls) == 1
     assert "repos/slaid098/media-gen/actions/runs" in " ".join(api_calls[0])
-    assert "slaid098/opencode" not in " ".join(api_calls[0])
+    assert "slaid098/opencode-config" not in " ".join(api_calls[0])
 
 
 # ── _load_ci_config — priority ────────────────────────────────────────────────

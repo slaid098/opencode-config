@@ -25,7 +25,7 @@ spec.loader.exec_module(ps)
 
 GIT_REMOTE_MOCK: tuple[tuple[str, ...], tuple[int, str, str]] = (
     ("git", "remote"),
-    (0, "https://github.com/slaid098/opencode.git\n", ""),
+    (0, "https://github.com/slaid098/opencode-config.git\n", ""),
 )
 
 
@@ -85,7 +85,7 @@ def make_handoff(
 
 
 def test_parse_remote_url_https():
-    assert ps.parse_remote_url("https://github.com/slaid098/opencode.git") == (
+    assert ps.parse_remote_url("https://github.com/slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -93,7 +93,7 @@ def test_parse_remote_url_https():
 
 
 def test_parse_remote_url_https_no_git_suffix():
-    assert ps.parse_remote_url("https://github.com/slaid098/opencode") == (
+    assert ps.parse_remote_url("https://github.com/slaid098/opencode-config") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -101,7 +101,7 @@ def test_parse_remote_url_https_no_git_suffix():
 
 
 def test_parse_remote_url_ssh():
-    assert ps.parse_remote_url("git@github.com:slaid098/opencode.git") == (
+    assert ps.parse_remote_url("git@github.com:slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -109,7 +109,7 @@ def test_parse_remote_url_ssh():
 
 
 def test_parse_remote_url_ssh_no_git_suffix():
-    assert ps.parse_remote_url("git@github.com:slaid098/opencode") == (
+    assert ps.parse_remote_url("git@github.com:slaid098/opencode-config") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -682,7 +682,7 @@ def test_get_memory_file_path(monkeypatch):
         "run_cmd",
         mock_run_cmd(
             {
-                ("git", "remote"): (0, "https://github.com/slaid098/opencode.git\n", ""),
+                ("git", "remote"): (0, "https://github.com/slaid098/opencode-config.git\n", ""),
             }
         ),
     )
@@ -694,7 +694,7 @@ def test_get_memory_file_path_ssh(monkeypatch):
     monkeypatch.setattr(
         ps,
         "run_cmd",
-        mock_run_cmd({("git", "remote"): (0, "git@github.com:slaid098/opencode.git\n", "")}),
+        mock_run_cmd({("git", "remote"): (0, "git@github.com:slaid098/opencode-config.git\n", "")}),
     )
     path = ps.get_memory_file_path()
     assert path.name == "opencode.md"
@@ -711,9 +711,11 @@ def test_get_repo_full_name_current_repo(monkeypatch):
     monkeypatch.setattr(
         ps,
         "run_cmd",
-        mock_run_cmd({("git", "remote"): (0, "https://github.com/slaid098/opencode.git\n", "")}),
+        mock_run_cmd(
+            {("git", "remote"): (0, "https://github.com/slaid098/opencode-config.git\n", "")}
+        ),
     )
-    assert ps.get_repo_full_name() == "slaid098/opencode"
+    assert ps.get_repo_full_name() == "slaid098/opencode-config"
     ps.get_repo_full_name.cache_clear()
 
 
@@ -749,12 +751,12 @@ def test_get_repo_full_name_cached(monkeypatch):
     def _counting_mock(args: list[str]) -> tuple[int, str, str]:
         if tuple(args[:2]) == ("git", "remote"):
             call_count[0] += 1
-            return (0, "https://github.com/slaid098/opencode.git\n", "")
+            return (0, "https://github.com/slaid098/opencode-config.git\n", "")
         return (1, "", f"unmocked: {args}")
 
     monkeypatch.setattr(ps, "run_cmd", _counting_mock)
-    assert ps.get_repo_full_name() == "slaid098/opencode"
-    assert ps.get_repo_full_name() == "slaid098/opencode"
+    assert ps.get_repo_full_name() == "slaid098/opencode-config"
+    assert ps.get_repo_full_name() == "slaid098/opencode-config"
     assert call_count[0] == 1
     ps.get_repo_full_name.cache_clear()
 
@@ -1119,7 +1121,7 @@ def test_pr_exists_with_explicit_repo(monkeypatch):
         ps,
         "run_cmd",
         lambda a: (
-            (0, "https://github.com/slaid098/opencode.git\n", "")
+            (0, "https://github.com/slaid098/opencode-config.git\n", "")
             if tuple(a[:2]) == ("git", "remote")
             else _capture(a)
         ),
@@ -1156,7 +1158,7 @@ def test_check_issue_uses_repo_flag(monkeypatch):
         ps,
         "run_cmd",
         lambda a: (
-            (0, "https://github.com/slaid098/opencode.git\n", "")
+            (0, "https://github.com/slaid098/opencode-config.git\n", "")
             if tuple(a[:2]) == ("git", "remote")
             else _capture(a)
         ),

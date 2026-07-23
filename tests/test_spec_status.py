@@ -27,7 +27,7 @@ spec.loader.exec_module(ss)
 
 GIT_REMOTE_MOCK: tuple[tuple[str, ...], tuple[int, str, str]] = (
     ("git", "remote"),
-    (0, "https://github.com/slaid098/opencode.git\n", ""),
+    (0, "https://github.com/slaid098/opencode-config.git\n", ""),
 )
 
 
@@ -116,7 +116,7 @@ def test_parse_frontmatter_multiline_body():
 
 
 def test_parse_remote_url_https():
-    assert ss.parse_remote_url("https://github.com/slaid098/opencode.git") == (
+    assert ss.parse_remote_url("https://github.com/slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -124,7 +124,7 @@ def test_parse_remote_url_https():
 
 
 def test_parse_remote_url_https_no_git_suffix():
-    assert ss.parse_remote_url("https://github.com/slaid098/opencode") == (
+    assert ss.parse_remote_url("https://github.com/slaid098/opencode-config") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -132,7 +132,7 @@ def test_parse_remote_url_https_no_git_suffix():
 
 
 def test_parse_remote_url_ssh():
-    assert ss.parse_remote_url("git@github.com:slaid098/opencode.git") == (
+    assert ss.parse_remote_url("git@github.com:slaid098/opencode-config.git") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -140,7 +140,7 @@ def test_parse_remote_url_ssh():
 
 
 def test_parse_remote_url_ssh_no_git_suffix():
-    assert ss.parse_remote_url("git@github.com:slaid098/opencode") == (
+    assert ss.parse_remote_url("git@github.com:slaid098/opencode-config") == (
         "github.com",
         "slaid098",
         "opencode",
@@ -160,9 +160,11 @@ def test_get_repo_full_name_current_repo(monkeypatch):
     monkeypatch.setattr(
         ss,
         "run_cmd",
-        mock_run_cmd({("git", "remote"): (0, "https://github.com/slaid098/opencode.git\n", "")}),
+        mock_run_cmd(
+            {("git", "remote"): (0, "https://github.com/slaid098/opencode-config.git\n", "")}
+        ),
     )
-    assert ss.get_repo_full_name() == "slaid098/opencode"
+    assert ss.get_repo_full_name() == "slaid098/opencode-config"
     ss.get_repo_full_name.cache_clear()
 
 
@@ -173,12 +175,12 @@ def test_get_repo_full_name_cached(monkeypatch):
     def _counting_mock(args: list[str]) -> tuple[int, str, str]:
         if tuple(args[:2]) == ("git", "remote"):
             call_count[0] += 1
-            return (0, "https://github.com/slaid098/opencode.git\n", "")
+            return (0, "https://github.com/slaid098/opencode-config.git\n", "")
         return (1, "", f"unmocked: {args}")
 
     monkeypatch.setattr(ss, "run_cmd", _counting_mock)
-    assert ss.get_repo_full_name() == "slaid098/opencode"
-    assert ss.get_repo_full_name() == "slaid098/opencode"
+    assert ss.get_repo_full_name() == "slaid098/opencode-config"
+    assert ss.get_repo_full_name() == "slaid098/opencode-config"
     assert call_count[0] == 1
     ss.get_repo_full_name.cache_clear()
 

@@ -40,9 +40,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/slaid098/opencode"
-Repository = "https://github.com/slaid098/opencode"
-Issues = "https://github.com/slaid098/opencode/issues"
+Homepage = "https://github.com/slaid098/opencode-config"
+Repository = "https://github.com/slaid098/opencode-config"
+Issues = "https://github.com/slaid098/opencode-config/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
