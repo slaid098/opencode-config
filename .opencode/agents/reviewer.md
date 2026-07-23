@@ -65,7 +65,6 @@ permission:
     "git clone*": allow
     "git ls-tree*": allow
     "git ls-files*": allow
-    "echo *": allow
     "grep *": allow
     "python3*": allow
     "python *": allow
