@@ -13,7 +13,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "CI bootstrap OK"
+
   lint:
+    needs: bootstrap
+    if: hashFiles('src/**/*.py') != ''
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -27,6 +34,8 @@ jobs:
       - run: uv run ruff format --check src/ tests/ .opencode/scripts/
 
   typecheck:
+    needs: bootstrap
+    if: hashFiles('src/**/*.py') != ''
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -39,6 +48,8 @@ jobs:
       - run: uv run mypy src/
 
   test:
+    needs: bootstrap
+    if: hashFiles('src/**/*.py') != ''
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -58,6 +69,8 @@ jobs:
       - run: uv run --python ${{ matrix.python }} pytest
 
   complexity:
+    needs: bootstrap
+    if: hashFiles('src/**/*.py') != ''
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
