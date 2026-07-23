@@ -15,12 +15,22 @@ concurrency:
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
+    outputs:
+      has_src: ${{ steps.check.outputs.has_src }}
     steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -n "$(find src/ -name '*.py' -print -quit 2>/dev/null)" ]; then
+            echo "has_src=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_src=false" >> $GITHUB_OUTPUT
+          fi
       - run: echo "CI bootstrap OK"
 
   lint:
     needs: bootstrap
-    if: ${{ hashFiles('src/**/*.py') != '' }}
+    if: needs.bootstrap.outputs.has_src == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -35,7 +45,7 @@ jobs:
 
   typecheck:
     needs: bootstrap
-    if: ${{ hashFiles('src/**/*.py') != '' }}
+    if: needs.bootstrap.outputs.has_src == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -49,7 +59,7 @@ jobs:
 
   test:
     needs: bootstrap
-    if: ${{ hashFiles('src/**/*.py') != '' }}
+    if: needs.bootstrap.outputs.has_src == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -70,7 +80,7 @@ jobs:
 
   complexity:
     needs: bootstrap
-    if: ${{ hashFiles('src/**/*.py') != '' }}
+    if: needs.bootstrap.outputs.has_src == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
