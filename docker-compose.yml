@@ -1,0 +1,62 @@
+services:
+  dind:
+    image: docker:dind
+    container_name: opencode-docker-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    networks:
+      - opencode_network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+          pids: 512
+        reservations:
+          memory: 1G
+
+  opencode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: opencode
+    restart: unless-stopped
+    command: ["serve", "--hostname", "0.0.0.0", "--port", "4096", "--cors", "*"]
+    working_dir: /root/workspace
+    env_file:
+      - .env
+    environment:
+      - DOCKER_HOST=tcp://docker-dind:2375
+      - OPENCODE_CONFIG_DIR=/root/.config/opencode
+      - OPENCODE_MEMORY_DIR=/root/workspace/app_data/opencode-memory
+      - DOCKER_CONTAINER=true
+      - GIT_AUTHOR_NAME=opencode-agent
+      - GIT_AUTHOR_EMAIL=agent@opencode.local
+      - GIT_COMMITTER_NAME=opencode-agent
+      - GIT_COMMITTER_EMAIL=agent@opencode.local
+    volumes:
+      - ./.opencode:/root/.config/opencode
+      - ./app_data:/root/.local/share/opencode
+      - ./app_data/workspaces:/root/workspace
+      - ./app_data/ssh:/root/.ssh:ro
+    ports:
+      - "127.0.0.1:4096:4096"
+    networks:
+      - opencode_network
+    depends_on:
+      dind:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 6G
+          pids: 1024
+        reservations:
+          memory: 2G
+
+networks:
+  opencode_network:
+    name: opencode_network
