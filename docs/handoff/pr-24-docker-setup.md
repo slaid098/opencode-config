@@ -25,5 +25,5 @@ Source: `/root/workspace/opencode/` (ветка fix/pipeline-status/review-next-
 - `docker-compose.yml` — 2 services (dind, opencode), network `opencode_network`, 4 bind mounts
 - `Dockerfile` — node:20-slim + apt (ca-certs, curl, git, ssh, autossh, python3, make, g++, chromium, gnupg, docker.io, ffmpeg) + uv + gh + opencode-ai + repomix
 - `.env.example` — AI provider, OpenCode server, GitHub, Context7, Telegram, Redis, Cloudflare (optional), Antidetect Browser MCP
-- `docs/handoff/pr-8-docker-setup.md` — этот файл (PR number исправлен post-create)
-- `docs/decisions/004-pr-8-docker-setup.md` — ADR-004
+- `docs/handoff/pr-24-docker-setup.md` — этот файл
+- `docs/decisions/004-pr-24-docker-setup.md` — ADR-004
