@@ -91,7 +91,7 @@ max-statements = 50
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "PLR2004", "S106", "S603", "S607"]
-"config/scripts/*" = ["S603", "S607"]
+".opencode/scripts/*" = ["S603", "S607"]
 
 # ── mypy ──────────────────────────────────────────────────────────────────
 
@@ -110,14 +110,14 @@ warn_unused_ignores = true
 # ── pytest ────────────────────────────────────────────────────────────────
 
 [tool.pytest.ini_options]
-addopts = "--cov=src --cov=config/scripts --cov-report=term-missing --cov-fail-under=80 --timeout=120"
+addopts = "--cov=src --cov=.opencode/scripts --cov-report=term-missing --cov-fail-under=80 --timeout=120"
 testpaths = ["tests"]
 asyncio_mode = "auto"
 
 # ── coverage ──────────────────────────────────────────────────────────────
 
 [tool.coverage.run]
-source = ["src", "config/scripts"]
+source = ["src", ".opencode/scripts"]
 branch = true
 
 [tool.coverage.report]
