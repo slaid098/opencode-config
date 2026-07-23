@@ -1,0 +1,11 @@
+name: CI (always)
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "CI bootstrap OK — pipeline_status marker"
