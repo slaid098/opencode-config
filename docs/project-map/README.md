@@ -54,6 +54,33 @@ opencode-config/
 │   ├── handoff/                   # PR handoffs (pr-<N>-<slug>.md)
 │   ├── decisions/                 # ADRs (NNN-pr-<N>-<slug>.md)
 │   └── project-map/               # This file — structure snapshot
+├── src/                           # Python RAG CLI (second-brain) — PR#17
+│   └── memory/
+│       ├── __init__.py
+│       ├── __main__.py            # Entry point for `python -m memory`
+│       ├── cli.py                 # CLI commands
+│       ├── embedder.py            # Embedding via AI_PROVIDER_API_URL (env-only)
+│       ├── index.py               # Indexing
+│       └── search.py              # Search
+├── tests/                         # pytest + TS/MJS test suite — PR#17
+│   ├── _ts_loader.mjs             # TS test loader (imports pipeline-status.ts / spec-status.ts)
+│   ├── test_check_adr_refs.py     # adr-check.yml validator
+│   ├── test_check_permissions.py  # permissions-check.yml validator
+│   ├── test_cli.py                # src/memory/cli.py
+│   ├── test_embedder.py           # src/memory/embedder.py (mocks AI_PROVIDER_API_URL)
+│   ├── test_index.py              # src/memory/index.py
+│   ├── test_observability.py      # .opencode/scripts/observability.py
+│   ├── test_pipeline_status.py    # .opencode/scripts/pipeline-status.py (REVIEW verdict branching)
+│   ├── test_pipeline_status_adr.py
+│   ├── test_pipeline_status_ci.py
+│   ├── test_pipeline_status_tool.py
+│   ├── test_pipeline_status_tool.ts  # TS wrapper test (mjs loader)
+│   ├── test_search.py             # src/memory/search.py
+│   ├── test_spec_status.py        # .opencode/scripts/spec-status.py
+│   └── test_spec_status_tool.py
+├── pyproject.toml                 # Python project (uv, ruff, pytest config)
+├── uv.lock                        # Locked deps for Python project
+├── .pre-commit-config.yaml        # ruff + UV hooks
 ├── app_data/
 │   ├── workspaces/                # Agent working directory (.gitkeep)
 │   └── ssh/                       # SSH keys, not in git (.gitkeep)
@@ -66,8 +93,8 @@ opencode-config/
 
 ## Pending (future PRs)
 
-- `src/` — Python RAG CLI (second-brain) — after #5 (PR#17)
-- `tests/` — pytest test suite — after #5
+- `.opencode/scripts/pipeline-status.py` fix `610452f` — PR#7 (config/scripts/ migration)
+- `.opencode/tools/` TS wrappers — PR#7 (config/tools/ migration)
 
 ## Update Protocol
 
