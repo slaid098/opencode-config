@@ -3,10 +3,9 @@ import os
 import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-API_URL = os.environ.get(
-    "AI_PROVIDER_API_URL",
-    "https://ai.slaid098.dev/v1",
-)
+API_URL = os.environ.get("AI_PROVIDER_API_URL")
+if not API_URL:
+    raise RuntimeError("AI_PROVIDER_API_URL env var not set")
 API_KEY = os.environ.get("AI_PROVIDER_API_KEY", "")
 EMBEDDING_MODEL = "gemini-embedding-2-preview"
 

@@ -1,3 +1,7 @@
+import os
+
+os.environ.setdefault("AI_PROVIDER_API_URL", "http://test/v1")
+
 from typing import NoReturn
 from unittest.mock import patch
 
