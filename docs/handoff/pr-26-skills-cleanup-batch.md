@@ -6,7 +6,7 @@
 - memory: path inconsistency fixed (plugin default + OPENCODE_MEMORY_DIR override)
 - add-skill: config/skills → .opencode/skills, tunnel dropped, reframe for subagent
 - get-project-map: removed merged: field, fixed ADR naming convention, repomix noted
-- spec-driver: ADR-NNN → ADR-026, removed slaid098 default
+- spec-driver: ADR-NNN → ADR-006, removed slaid098 default
 - commit: docs scope expanded, removed "why не what", aligned git log -20, ≤72, English only
 - issue + pipeline-driver: stale config/skills refs fixed (verification-required)
 
