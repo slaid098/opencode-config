@@ -2,6 +2,8 @@
 
 opencode-config — Docker-based AI coding assistant with persistent memory (opencode configuration). Runs in Docker via `docker-compose.yml` (dind + opencode services).
 
+Root `AGENTS.md` — orchestrator directive (chat = plan only, all via subagents) + global rules (commits, PRs, code style, language RU). Auto-loaded for project + bind-mounted globally in container — PR#31.
+
 ## Structure
 
 ```
@@ -91,6 +93,7 @@ opencode-config/
 ├── .editorconfig
 ├── .gitignore
 ├── .python-version
+├── AGENTS.md                       # Orchestrator directive + global rules (bind-mounted globally) — PR#31
 ├── LICENSE
 └── README.md
 ```
