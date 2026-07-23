@@ -38,6 +38,7 @@ services:
       - GIT_COMMITTER_EMAIL=agent@opencode.local
     volumes:
       - ./.opencode:/root/.config/opencode
+      - ./AGENTS.md:/root/.config/opencode/AGENTS.md:ro
       - ./app_data:/root/.local/share/opencode
       - ./app_data/workspaces:/root/workspace
       - ./app_data/ssh:/root/.ssh:ro
