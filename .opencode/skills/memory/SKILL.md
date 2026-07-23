@@ -61,13 +61,13 @@ related: [category/file.md]
 
 ## Путь для репозиториев
 
+Плагинный default: `~/opencode-memory` (переопределяется через `OPENCODE_MEMORY_DIR`, например `app_data/opencode-memory`).
+
 ```
-~/opencode-memory/repos/{host}/{org}/{repo}.md
+{memory-dir}/repos/{host}/{org}/{repo}.md
 ```
 
-## Дистилляция из handoff
-
-После merge PR memory-syncer читает `docs/handoff/pr-<N>-<slug>.md` и дистиллирует durable-записи в `app_data/opencode-memory/repos/{host}/{org}/{repo}.md`. Путь выводится из `git remote get-url origin`.
+Используй один путь последовательно во всех примерах — default (`~/opencode-memory`) или override (`app_data/opencode-memory`), но не оба сразу.
 
 ### Формат записей
 

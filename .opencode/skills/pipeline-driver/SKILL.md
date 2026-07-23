@@ -91,7 +91,7 @@ Review PR#M в текущем репо (pre-merge, режим docs).
 Review PR#M в текущем репо.
 1. `gh pr view M --json headRefName,body,title`.
 2. `git diff origin/master...HEAD`.
-3. Load project skills: `find config/skills/ -name "SKILL.md"`, грузи каждый
+3. Load project skills: `find .opencode/skills/ -name "SKILL.md"`, грузи каждый
    через `skill("<name>")`.
 4. Проверь: code quality, architecture, error handling, security, testing,
    duplication, project-specific rules, PR hygiene, handoff/ADR (quick check).

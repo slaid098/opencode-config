@@ -108,7 +108,7 @@ gh issue create \
 
 ## Пути навыков
 
-Навыки создаются в `config/skills/` в репозитории opencode. НЕ в `~/.config/opencode/skills/` — это маунт из репо. После изменения навыка нужен `git pull` на хосте + рестарт контейнера.
+Навыки создаются в `.opencode/skills/` в репозитории opencode. НЕ в `~/.config/opencode/skills/` — это маунт из репо. После изменения навыка нужен `git pull` на хосте + рестарт opencode.
 
 ## Полный workflow
 
