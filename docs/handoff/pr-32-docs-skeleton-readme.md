@@ -12,6 +12,6 @@ Public repo needs complete README for users. docs/ skeleton for future PR handof
 - Нет (финальный PR миграции)
 
 ## Watch out
-- README references AGENTS.md (#10), /run-pipeline (#14), merge_pr (#16) — all merged
-- .env.example from #8, docker-compose from #8
+- README references AGENTS.md (PR#31), /run-pipeline command (PR#29), merge_pr tool (PR#30) — all merged
+- .env.example + docker-compose from PR#24
 - Memory plugin @mathew-cf/opencode-memory
