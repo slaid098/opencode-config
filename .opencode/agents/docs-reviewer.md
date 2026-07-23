@@ -117,7 +117,7 @@ After updating project map, validate handoff and ADR files:
 
 ## Spec cleanup (post-merge, опционально)
 
-Если `docs/spec/roadmap.md` существует в репо (spec-driver был запущен):
+Если `docs/spec/roadmap.md` существует в репо (spec был запущен):
 1. Извлеки все `#N` номера issues из `docs/spec/roadmap.md` (regex `#(\d+)`).
 2. Для каждого `#N`: `gh issue view N --json state --jq .state`.
 3. Если ВСЕ issues имеют `state=CLOSED`:

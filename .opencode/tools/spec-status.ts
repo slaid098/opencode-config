@@ -3,7 +3,7 @@ import path from "path"
 import { tool } from "@opencode-ai/plugin"
 
 export default tool({
-  description: "Spec status oracle. Returns current phase + NEXT action for spec-driver. Call BEFORE any spec action. Read-only. Returns DONE on phase complete, NOT_DONE on missing section, AMBIGUOUS on parse error.",
+  description: "Spec status oracle. Returns current phase + NEXT action for the spec command. Call BEFORE any spec action. Read-only. Returns DONE on phase complete, NOT_DONE on missing section, AMBIGUOUS on parse error.",
   args: {
     validate: tool.schema.boolean().optional().describe("If true, show all phases detail"),
   },

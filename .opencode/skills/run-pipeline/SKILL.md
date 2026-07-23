@@ -1,9 +1,9 @@
 ---
-name: pipeline-driver
+name: run-pipeline
 description: Автономный исполнитель PR-пайплайна. Делегирует 7 фаз subagent'ам, не импровизирует порядок, не мержит при красном CI.
 ---
 
-# Pipeline Driver
+# Run Pipeline
 
 Автономная процедура-loop для проведения PR через 7 фаз. Source of truth для
 порядка и действий — `pipeline_status` tool.
@@ -98,7 +98,7 @@ Review PR#M в текущем репо.
 5. Оставь review как PR comment (НЕ `gh pr review --approve` — GitHub блокирует
    self-approve):
    `gh pr comment M --body "## Code Review Summary\n...\n### Verdict: APPROVE|REQUEST_CHANGES"`.
-6. НЕ МЕРДЖИТЬ — merge делает основной агент через pipeline-driver.
+   6. НЕ МЕРДЖИТЬ — merge делает основной агент через run-pipeline.
 ```
 
 ### Template D (fix_ci)
