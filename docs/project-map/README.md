@@ -37,6 +37,7 @@ opencode-config/
 │   │   ├── run-tests/SKILL.md      # Test runner guide
 │   │   └── spec/SKILL.md           # 9-phase spec generation
 │   ├── tools/
+│   │   ├── merge-pr.ts            # merge_pr tool wrapper (orchestrator-safe gh pr merge) — PR#30
 │   │   ├── pipeline-status.ts      # pipeline_status tool wrapper
 │   │   └── spec-status.ts          # spec_status tool wrapper
 │   ├── scripts/

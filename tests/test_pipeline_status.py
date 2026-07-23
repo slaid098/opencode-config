@@ -977,7 +977,7 @@ def test_format_pr_row_review_request_changes(monkeypatch):
         ("DOCS", "запустить docs-reviewer (режим pre-merge)"),
         ("CI", "проверь статус CI вручную (gh run view)"),
         ("REVIEW", "запустить reviewer (task subagent_type=reviewer)"),
-        ("MERGE", "смержить PR (gh pr merge 46 --squash --delete-branch)"),
+        ("MERGE", "вызвать merge_pr tool ({pr_number: 46})"),
         ("MEMORY", "запустить memory-syncer"),
     ],
 )

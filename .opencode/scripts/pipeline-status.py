@@ -613,7 +613,7 @@ NEXT_ACTIONS: dict[str, str] = {
     "DOCS": "запустить docs-reviewer (режим pre-merge)",
     "CI": "проверь статус CI вручную (gh run view)",
     "REVIEW": "запустить reviewer (task subagent_type=reviewer)",
-    "MERGE": "смержить PR (gh pr merge N --squash --delete-branch)",
+    "MERGE": "вызвать merge_pr tool ({pr_number: N})",
     "MEMORY": "запустить memory-syncer",
 }
 

@@ -26,7 +26,7 @@ description: Автономный исполнитель PR-пайплайна. 
 - Пропускать вызов `pipeline_status`, даже если «кажется, что фаза уже ✅» — скрипт решает.
 - Делать bash `sleep` для ожидания CI — `pipeline_status` сам блокирует до 5 мин (polling Actions API внутри `check_ci`). Один вызов → финальный статус.
 - Merge при CI ❌ (transitive guard в скрипте).
-- Использовать `--admin` flag для `gh pr merge`.
+- Передавать `--admin` flag в `merge_pr` (или raw `gh pr merge`) — никогда.
 - Параллелить subagents (последовательно: action → `pipeline_status` → next action).
 
 ### Остановы
@@ -37,8 +37,9 @@ description: Автономный исполнитель PR-пайплайна. 
 
 ## Phase 0: Bootstrap
 
-1. Если задача описана в чате, а не issue → load `issue` skill, создай GitHub
-   issue N (через subagent с `issue` skill, чтобы не засорять контекст).
+1. Если задача описана в чате, а не issue → dispatch subagent (general type)
+   с инструкцией load `issue` skill и создать GitHub issue N. Main agent НЕ
+   пишет body issue и НЕ запускает `gh issue create` (чистый orchestrator).
 2. Запусти subagent (general type) с prompt template A → PR M с `Closes #N` в
    body. Subagent вернёт PR номер M.
 3. Войди в loop ПРОТОКОЛ выше.
@@ -52,7 +53,7 @@ description: Автономный исполнитель PR-пайплайна. 
 1. Checkout new branch `type/scope/kebab-description` от master.
 2. Реализуй по спеке issue (точно, без отклонений). Если спека содержит ошибки,
    зафикь и продолжай — не додумывай.
-3. Создай handoff + ADR: `bash config/scripts/scaffold-handoff.sh M <slug>`
+3. Создай handoff + ADR: `bash .opencode/scripts/scaffold-handoff.sh M <slug>`
    (M — будет PR номер, используй placeholder `<PR-NUMBER>` в handoff
    frontmatter, потом исправишь после `gh pr create`).
 4. Коммиты в формате `type(scope): description` (≤72 chars, English, no
@@ -133,6 +134,21 @@ Log: `gh run view <run-id> --log-failed` output:
    репорт пользователю (guard от случайного коммита в master).
 ```
 
+### Template F (merge)
+
+MERGE phase — main agent вызывает tool напрямую (НЕ subagent, НЕ raw bash).
+`pipeline_status` сам решает, можно ли мержить (CI gate внутри скрипта —
+transitive guard). После `NEXT: ...merge_pr...` → один вызов:
+
+```
+merge_pr({ pr_number: M })
+```
+
+Если вернулась `⚠️ merge_pr failed ...` → репорт пользователю, STOP (НЕ retry
+через raw bash — это нарушит orchestrator-контракт). Если `PR #M merged
+successfully ...` → 1 строка прогресса и re-loop (`pipeline_status` покажет
+`Status: COMPLETE` или перейдёт на MEMORY phase).
+
 ## API Restrictions
 
 Использовать только Actions API (`pipeline_status`, `gh run list`, `gh run view`, `gh api repos/.../actions/runs`). **Запрещено** `gh pr checks` и `gh pr view --json statusCheckRollup` — 403 на fine-grained PAT (scope `Checks: read` не существует).
@@ -143,5 +159,6 @@ Log: `gh run view <run-id> --log-failed` output:
 - Скрипт read-only (только `gh api`/`gh pr view`, без мутаций).
 - После каждой фазы → 1 строка прогресса юзеру.
 - Если subagent error → 1 retry, потом STOP + report пользователю.
-- `gh pr merge M --squash --delete-branch` (без `--admin`).
+- `merge_pr({ pr_number: M })` tool — единственный способ мержить PR (без
+  `--admin`, без raw bash). См. Template F.
 - Если reviewer вердикт `REQUEST_CHANGES` → запусти subagent (general) с prompt "fix reviewer comments: <list>", commit, push → re-loop (`pipeline_status` проверит CI автоматически).
