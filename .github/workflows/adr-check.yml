@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'docs/**'
-      - 'config/**'
+      - '.opencode/**'
       - '**/*.md'
       - '.github/workflows/adr-check.yml'
 
@@ -14,11 +14,11 @@ concurrency:
 
 jobs:
   check:
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python3 config/scripts/check-adr-refs.py
+      - run: python3 .opencode/scripts/check-adr-refs.py
