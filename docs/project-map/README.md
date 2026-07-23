@@ -41,7 +41,8 @@ opencode-config/
 │   ├── tools/
 │   │   ├── merge-pr.ts            # merge_pr tool wrapper (orchestrator-safe gh pr merge) — PR#30
 │   │   ├── pipeline-status.ts      # pipeline_status tool wrapper
-│   │   └── spec-status.ts          # spec_status tool wrapper
+│   │   ├── spec-status.ts          # spec_status tool wrapper
+│   │   └── tunnel.ts               # Cloudflare tunnel toggle tool (start/stop без args) — PR#34
 │   ├── scripts/
 │   │   ├── check-adr-refs.py       # ADR cross-reference validator (adr-check.yml)
 │   │   ├── check-permissions.py    # Permissions validator (permissions-check.yml)
@@ -49,7 +50,8 @@ opencode-config/
 │   │   ├── pipeline-status.py      # 7-phase oracle (gh PR + CI polling)
 │   │   ├── scaffold-handoff.sh     # Scaffold handoff + ADR stubs
 │   │   ├── setup-memory.sh         # opencode-memory bootstrap
-│   │   └── spec-status.py          # 9-phase spec oracle
+│   │   ├── spec-status.py          # 9-phase spec oracle
+│   │   └── tunnel.sh               # Cloudflare tunnel toggle bash (named mode via CLOUDFLARE_TUNNEL_TOKEN) — PR#34
 │   ├── opencode.json               # MCP servers, providers, permissions, agents, plugins
 │   ├── package.json                # npm deps for tools/*.ts
 │   └── .gitignore                  # Ignores node_modules, etc.
@@ -85,8 +87,8 @@ opencode-config/
 ├── uv.lock                        # Locked deps for Python project
 ├── .pre-commit-config.yaml        # ruff + UV hooks
 ├── docker-compose.yml             # 2 services (dind + opencode), opencode_network, 4 bind mounts — PR#24
-├── Dockerfile                     # node:20-slim + uv + gh + chromium + docker.io + opencode-ai + repomix — PR#24
-├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24
+├── Dockerfile                     # node:20-slim + uv + gh + chromium + docker.io + opencode-ai + repomix + cloudflared — PR#24, PR#34
+├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24, PR#34 (TUNNEL_DOMAIN)
 ├── app_data/
 │   ├── workspaces/                # Agent working directory (.gitkeep)
 │   └── ssh/                       # SSH keys, not in git (.gitkeep)
