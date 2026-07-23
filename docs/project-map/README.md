@@ -18,7 +18,7 @@ opencode-config/
 │   │   ├── memory-syncer.md        # Distills gotchas from handoffs into opencode-memory
 │   │   └── reviewer.md             # Code review subagent (verdict APPROVE|REQUEST_CHANGES)
 │   ├── commands/
-│   │   ├── opencode-config.md      # /opencode-config — edit opencode.json
+│   │   ├── configure-opencode.md   # /configure-opencode — edit opencode.json
 │   │   ├── pipeline-driver.md      # /pipeline-driver — 7-phase PR pipeline
 │   │   └── spec-driver.md          # /spec-driver — 9-phase spec generation
 │   ├── skills/
@@ -29,7 +29,7 @@ opencode-config/
 │   │   ├── get-project-map/SKILL.md # Maintain docs/project-map/
 │   │   ├── issue/SKILL.md          # GitHub issue creation
 │   │   ├── memory/SKILL.md         # opencode-memory usage guide
-│   │   ├── opencode-config/SKILL.md # Canonical rule: write to .opencode/
+│   │   ├── configure-opencode/SKILL.md # Canonical rule: write to .opencode/
 │   │   ├── pipeline-driver/SKILL.md # 7-phase pipeline orchestration
 │   │   ├── python-development/SKILL.md # Python dev patterns
 │   │   ├── release/SKILL.md        # Tag + GitHub Release
