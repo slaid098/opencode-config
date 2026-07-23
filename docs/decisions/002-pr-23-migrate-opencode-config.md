@@ -17,5 +17,5 @@ Accepted
 
 ## Альтернативы
 
-- Сохранить config/ + bind-mount — отклонено (LSP-конфликт ADR-009, не zero-config)
+- Сохранить config/ + bind-mount — отклонено (LSP-конфликт pyproject.toml, не zero-config)
 - Дропнуть skills (использовать только глобальные) — отклонено (skills нужны в репо для публичного shareable config)
