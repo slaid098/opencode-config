@@ -1,0 +1,43 @@
+# app_data (runtime, not in git except .gitkeep structure)
+app_data/*
+!app_data/.gitkeep
+!app_data/workspaces/
+app_data/workspaces/*
+!app_data/workspaces/.gitkeep
+!app_data/ssh/
+app_data/ssh/*
+!app_data/ssh/.gitkeep
+
+# opencode plugin node_modules
+.opencode/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+*.spec
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment / secrets
+.env
+*.env
+!.env.example
+!.env.template
+
+# Testing / quality caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
