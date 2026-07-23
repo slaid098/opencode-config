@@ -41,7 +41,7 @@ You are **read-only on the repository** and **write-only on memory**. You CANNOT
 
 1. Get the PR number from the invocation prompt.
 2. Find the merged handoff file: `ls docs/handoff/pr-<N>-*` to discover the slug, then `cat docs/handoff/pr-<N>-<slug>.md` to read it (read-only — agent does not check out branches).
-3. Determine the repo: `git remote get-url origin` → parse `{host}/{org}/{repo}` (e.g. `github.com/slaid098/opencode`).
+3. Determine the repo: `git remote get-url origin` → parse `{host}/{org}/{repo}` (e.g. `github.com/slaid098/opencode-config`).
 4. Resolve memory path: read `OPENCODE_MEMORY_DIR` env var (set globally via docker-compose; fallback is `app_data/opencode-memory/` for local dev) → `<memory_dir>/repos/{host}/{org}/{repo}.md`. Use `printenv OPENCODE_MEMORY_DIR` to inspect it.
 5. Open the memory file (create if missing) via the `edit`/`write` tool — `edit: allow` permits this. The memory dir is an isolated git repo (post-commit hook auto-pushes), separate from the main repo.
 

@@ -1,25 +1,25 @@
 ---
 name: opencode-config
-description: Use when adding, changing, or removing MCP servers, providers, permissions, agents, plugins, or any block in opencode.json. Always writes to config/opencode.json in slaid098/opencode repo (bind-mounted to global ~/.config/opencode/). Also when user says "добавь MCP", "подключи интеграцию", "пропиши permissions", "добавь провайдера", "измени конфиг opencode", "куда писать конфиг".
+description: Use when adding, changing, or removing MCP servers, providers, permissions, agents, plugins, or any block in opencode.json. Always writes to config/opencode.json in slaid098/opencode-config repo (bind-mounted to global ~/.config/opencode/). Also when user says "добавь MCP", "подключи интеграцию", "пропиши permissions", "добавь провайдера", "измени конфиг opencode", "куда писать конфиг".
 ---
 
 # opencode-config
 
-Канонический скилл для правок `opencode.json` в репо `slaid098/opencode`. Фиксирует контракт «куда писать конфиг» и форматы блоков.
+Канонический скилл для правок `opencode.json` в репо `slaid098/opencode-config`. Фиксирует контракт «куда писать конфиг» и форматы блоков.
 
 ## 1. Каноническое правило (canonical rule)
 
-- **Всегда** пишем конфиг в `config/opencode.json` в репо `slaid098/opencode` → bind-mount `./config:/root/.config/opencode` (docker-compose.yml) → global `/root/.config/opencode/opencode.json`.
-- **НЕ создавать** project-local `opencode.json` в других репо (например `.opencode/opencode.json` в `media-gen`, `digital_factory`).
-- **НЕ спрашивать** пользователя «куда писать конфиг» — ответ всегда `config/opencode.json` в `slaid098/opencode`.
+- **Всегда** пишем конфиг в `config/opencode.json` в репо `slaid098/opencode-config` → bind-mount `./config:/root/.config/opencode` (docker-compose.yml) → global `/root/.config/opencode/opencode.json`.
+- **НЕ создавать** project-local `opencode.json` в других репо (например `.opencode/opencode.json` в `other-repo`).
+- **НЕ спрашивать** пользователя «куда писать конфиг» — ответ всегда `config/opencode.json` в `slaid098/opencode-config`.
 - **Исключение:** явный override-сценарий (project-local конфиг нужен для изоляции) — тогда указать явно в комментарии к изменению.
 
 Memory: `technical/opencode-config-global-vs-local.md` — детально описывает механизм bind-mount.
 
 ## 2. Применение изменений
 
-- `commit` + `push` в репо `slaid098/opencode` (через `commit` skill).
-- На хосте: `git pull` в корне репо `slaid098/opencode`.
+- `commit` + `push` в репо `slaid098/opencode-config` (через `commit` skill).
+- На хосте: `git pull` в корне репо `slaid098/opencode-config`.
 - Рестарт контейнера: MCP-серверы, skills, agents грузятся при старте (см. `add-skill/SKILL.md`, ADR-013). До рестарта правки не видны.
 - Для Windows bare-metal (`windows/start.bat`): см. ADR-009 — `OPENCODE_CONFIG_DIR` НЕ выставляется (LSP-конфликт с `pyproject.toml` в cwd), конфиг на винде — отдельная задача.
 
@@ -112,5 +112,5 @@ Memory: `technical/opencode-config-global-vs-local.md` — детально оп
 
 ## 9. Не дублировать блоки между репо
 
-- `opencode.json` в `slaid098/opencode` — единственный источник правды для global-конфига.
+- `opencode.json` в `slaid098/opencode-config` — единственный источник правды для global-конфига.
 - Project-local `opencode.json` в других репо — только для явного override (например отключить MCP для конкретного проекта). В 99% случаев не нужен.

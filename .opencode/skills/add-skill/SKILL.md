@@ -51,7 +51,7 @@ config/skills/
 ├── python-development/SKILL.md
 ├── repo-init/SKILL.md
 ├── run-tests/SKILL.md
-└── tunnel/SKILL.md
+└── spec-driver/SKILL.md
 ```
 
 ## 3. Скиллы авто-дискаверятся

@@ -175,7 +175,7 @@ If the repo has `skills/*/SKILL.md`:
 - Check code against these rules with higher priority than universal rules.
 - If code violates a project-specific rule → CRITICAL.
 
-Examples of project-specific rules (from mediakit):
+Examples of project-specific rules:
 - "No Playwright/BitBrowser code — use MCP REST only"
 - "Profile always closed in finally block"
 - "Plugins extend BasePlugin"

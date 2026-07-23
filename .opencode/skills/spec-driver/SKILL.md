@@ -248,7 +248,7 @@ Default stack для типа (хардкод, добавить всегда):
 ```
 Контекст: Phase 3 (modules) для проекта типа <type>.
 Ответ юзера: <answers>.
-1. memory_search("reference repo <module>") — доберёт паттерны из mediakit/digital_factory/etc.
+1. memory_search("reference repo <module>") — доберёт паттерны из reference repos.
 2. Сформируй ## Модули (bullet list) + ## Структура (дерево) на основе ответа + референсов.
 3. Создай docs/spec/modules.md с обеими секциями. edit docs/spec/meta.md frontmatter phase=3.
 4. Верни summary (5-10 строк) для показа юзеру.
