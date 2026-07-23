@@ -5,7 +5,7 @@ description: Analyse git history of any project and suggest commit messages that
 
 ## Процесс
 
-1. Запустить `git log --oneline -30`
+1. Запустить `git log --oneline -20`
 2. Если коммиты есть:
    - Извлечь все уникальные `type(scope):` паттерны
    - Составить список реальных scopes проекта
@@ -14,9 +14,10 @@ description: Analyse git history of any project and suggest commit messages that
    - Базовый формат: `type(scope): description`
    - Типы: `feat | fix | chore | docs | refactor | test | style | perf`
    - Scope по умолчанию: спросить пользователя
-   - Description отвечает на **why** (не what)
+   - Description — что сделано (кратко), на английском
    - Без точки в конце
-   - Max ~72 символа
+   - Max ≤72 символа
+   - Язык: English only — type, scope, description всё на английском
 
 ## Type
 
@@ -26,7 +27,7 @@ description: Analyse git history of any project and suggest commit messages that
 | `fix` | Bug fix |
 | `chore` | Maintenance, cleanup, dependencies, config |
 | `refactor` | Code restructuring, no behavior change |
-| `docs` | AGENTS.md, SKILL.md, README only |
+| `docs` | Documentation files (AGENTS.md, SKILL.md, README, handoff, ADR, project-map, docs/) |
 | `test` | Adding or fixing tests |
 | `style` | Formatting, linting, whitespace only |
 | `perf` | Performance improvements |

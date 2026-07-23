@@ -20,7 +20,7 @@ refactor/db/simplify-queries
 
 ### Rules
 
-1. Always branch from `main`
+1. Always branch from the default branch (verify `main`/`master`)
 2. Before creating a branch, **discuss with the user**:
    - Confirm the branch name
    - Confirm the scope
