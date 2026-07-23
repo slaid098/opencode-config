@@ -1,7 +1,7 @@
 # PR: Fix reviewer agent echo bypass
 
 ## Что сделано
-- Удалён `"echo *": allow` из .opencode/agents/reviewer.md bash allow-list
+- Удалён `"echo *": allow` из .opencode/agents/reviewer.md bash allow-list (PR #25, closes #15)
 - echo больше не может писать файлы (echo "x" > file.txt)
 - Rule 10 становится accurate ("echo не в allow-list")
 
