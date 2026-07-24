@@ -94,6 +94,7 @@ opencode-config/
 ├── Dockerfile                     # node:20-slim + uv + gh + chromium + docker.io + opencode-ai + repomix + cloudflared — PR#24, PR#34
 ├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24, PR#34 (TUNNEL_DOMAIN), PR#36 (OPENCODE_MEMORY_REMOTE/DIR)
 ├── app_data/
+│   ├── opencode-memory/           # Persistent memory (separate git repo, gitignored) — PR#36
 │   ├── workspaces/                # Agent working directory (.gitkeep)
 │   └── ssh/                       # SSH keys, not in git (.gitkeep)
 ├── .editorconfig

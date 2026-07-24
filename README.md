@@ -59,6 +59,7 @@ Copy `.env.example` to `.env` and fill in:
 Memory uses `@mathew-cf/opencode-memory` plugin (hybrid search: ripgrep + local RAG).
 
 - `OPENCODE_MEMORY_DIR` env var points to memory directory (default: `app_data/opencode-memory/`)
+- `OPENCODE_MEMORY_REMOTE` must point at your git remote — fork the upstream [`slaid098/opencode-memory`](https://github.com/slaid098/opencode-memory) repo and set the URL in `.env`
 - Run `.opencode/scripts/setup-memory.sh` to initialize memory repo
 
 ## License

@@ -4,8 +4,8 @@ set -euo pipefail
 MEMORY_DIR="${OPENCODE_MEMORY_DIR:-/root/.local/share/opencode/opencode-memory}"
 HOOK="$MEMORY_DIR/.git/hooks/post-commit"
 BRANCH="master"
-EXPECTED_HOOK='#!/bin/bash
-git push origin master 2>/dev/null || true'
+EXPECTED_HOOK="#!/bin/bash
+git push origin ${BRANCH} 2>/dev/null || true"
 
 if [ -z "${OPENCODE_MEMORY_REMOTE:-}" ]; then
   echo "ERROR: OPENCODE_MEMORY_REMOTE not set" >&2
@@ -26,7 +26,7 @@ fi
 # 2. .git exists? → clone (no) | pull --ff-only (yes)
 if [ ! -d "$MEMORY_DIR/.git" ]; then
   echo "  [2/6] cloning remote: $REMOTE"
-  git clone --origin origin "$REMOTE" "$MEMORY_DIR"
+  git clone --origin origin "$REMOTE" "$MEMORY_DIR" || { echo "ERROR: clone failed" >&2; exit 1; }
   git -C "$MEMORY_DIR" checkout "$BRANCH" 2>/dev/null || true
 else
   echo "  [2/6] pulling latest (ff-only)"

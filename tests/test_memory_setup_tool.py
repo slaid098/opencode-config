@@ -15,9 +15,6 @@ Modes used (same as the pipeline-status / spec-status tool tests):
 - ``exec_stub`` — call execute with a stubbed spawnSync to verify:
   (a) success path: exit 0 → trimmed stdout returned,
   (b) failure path: exit 1 → ``⚠️ memory-setup failed (exit 1): <stderr>``.
-- ``exec_real`` — call execute against the real setup-memory.sh
-  (integration, requires OPENCODE_MEMORY_REMOTE + a reachable remote;
-  skipped if env not set).
 """
 
 import json
