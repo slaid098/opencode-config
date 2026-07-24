@@ -20,7 +20,6 @@ permission:
     "git add docs/project-map*": allow
     "git add docs/handoff*": allow
     "git add docs/decisions*": allow
-    "git commit*": allow
     "git push*": allow
     "rg *": allow
     "find *": allow
@@ -122,7 +121,7 @@ After updating project map, validate handoff and ADR files:
 2. Для каждого `#N`: `gh issue view N --json state --jq .state`.
 3. Если ВСЕ issues имеют `state=CLOSED`:
    - `git rm -r docs/spec/` (удаляет всю директорию spec-документации).
-   - Коммит: `git commit -m "chore: remove completed spec"`.
+   - Коммит через `commit` tool: `commit({ message: "chore: remove completed spec" })`.
    - PR comment: добавить секцию `## Spec Cleanup` в docs-review summary: "Spec removed: all N issues from roadmap.md are CLOSED".
 4. Если хотя бы один issue OPEN → пропусти cleanup (spec ещё жив). PR comment: "Spec retained: M/N issues still OPEN".
 
@@ -131,10 +130,14 @@ After updating project map, validate handoff and ADR files:
 Используется `git rm -r docs/spec/` (НЕ `rm -rf docs/spec/`) — `rm -rf` блокируется `check-permissions.py` (DANGEROUS_PATTERNS, scope=all). `git rm -r` семантически эквивалентен и соответствует существующим паттернам `git rm docs/handoff*` / `git rm docs/decisions*`.
 
 ### Commit scope
-When committing, include all docs:
+When committing, stage docs first, then use the `commit` tool (raw `git commit` is globally denied — use the tool which bypasses via spawnSync):
 ```bash
 git add docs/project-map/ docs/handoff/ docs/decisions/
-git commit -m "docs: update project map + handoff + ADR"
+```
+```
+commit({ message: "docs: update project map + handoff + ADR" })
+```
+```bash
 git push
 ```
 
@@ -184,9 +187,9 @@ last_updated: <YYYY-MM-DD>
    ```bash
    git add docs/project-map/ docs/handoff/ docs/decisions/
    ```
-2. Commit:
-   ```bash
-   git commit -m "docs(project-map): update after structural changes"
+2. Commit via `commit` tool (raw `git commit` is globally denied — the tool bypasses via spawnSync):
+   ```
+   commit({ message: "docs(project-map): update after structural changes" })
    ```
 3. Push:
    ```bash

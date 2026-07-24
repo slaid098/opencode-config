@@ -306,12 +306,47 @@
         "ssh * powershell -Command Restart-*": "ask",
         "ssh * powershell -Command Stop-*": "ask",
 
-        "ssh *": "ask"
+        "ssh *": "ask",
+
+        "git commit *": "deny",
+        "gh pr create *": "deny",
+        "gh pr merge *": "deny",
+        "gh issue create *": "deny"
       }
     },
     "agent": {
       "general": {
-        "steps": 100
+        "steps": 100,
+        "tools": {
+          "commit": true,
+          "create_pr": true,
+          "create_issue": true,
+          "merge_pr": false
+        }
+      },
+      "reviewer": {
+        "tools": {
+          "commit": false,
+          "create_pr": false,
+          "create_issue": false,
+          "merge_pr": false
+        }
+      },
+      "docs-reviewer": {
+        "tools": {
+          "commit": true,
+          "create_pr": false,
+          "create_issue": false,
+          "merge_pr": false
+        }
+      },
+      "memory-syncer": {
+        "tools": {
+          "commit": false,
+          "create_pr": false,
+          "create_issue": false,
+          "merge_pr": false
+        }
       }
     },
     "mcp": {
