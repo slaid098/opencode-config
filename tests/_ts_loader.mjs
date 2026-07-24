@@ -122,6 +122,26 @@ function buildExecArgs(tool, rawValue) {
   return { [first]: rawValue }
 }
 
+// Multi-arg tools (commit.ts, create-pr.ts, create-issue.ts) declare several
+// args (message, title, body, issue_number, labels). The single-arg
+// ``buildExecArgs`` can't handle them. ``exec_stub_json`` mode passes the
+// full args object as a JSON string + a JSON array of sequential stub
+// responses (one per spawnSync call — commit.ts makes 2: git diff, git commit).
+function buildExecArgsFromJson(rawValue) {
+  return JSON.parse(rawValue)
+}
+
+function buildStubSequencer(responses) {
+  // Return a stub function that returns responses[callIndex] for each call,
+  // cycling through the list if there are more calls than responses.
+  let idx = 0
+  return (cmd, args, opts) => {
+    const r = responses[idx % responses.length]
+    idx++
+    return { status: r.status, stdout: r.stdout ?? "", stderr: r.stderr ?? "" }
+  }
+}
+
 function main() {
   const mode = process.argv[2]
   if (!mode) {
@@ -152,6 +172,37 @@ function main() {
     t.execute(execArgs, {
       // ToolContext — only fields the tool actually touches. Our tool
       // touches none of the ctx fields, so this can be empty-ish.
+      sessionID: "test", messageID: "test", agent: "test",
+      directory: REPO_ROOT, worktree: REPO_ROOT,
+      abort: new AbortController().signal,
+      metadata() {}, async ask() {},
+    }).then(
+      (result) => {
+        console.log(JSON.stringify({ result, calls: callLog }))
+      },
+      (err) => {
+        console.log(JSON.stringify({ error: String(err), calls: callLog }))
+      },
+    )
+    return
+  }
+  if (mode === "exec_stub_json") {
+    // Multi-arg tools (commit.ts, create-pr.ts, create-issue.ts).
+    // Args: <args_json> <responses_json>
+    //   args_json — JSON string of the args object, e.g. {"message":"feat(x): y"}
+    //   responses_json — JSON array of {status, stdout, stderr} stub
+    //     responses, returned sequentially per spawnSync call. Tools that
+    //     make N spawnSync calls need N entries (extra calls cycle back).
+    const execArgs = buildExecArgsFromJson(process.argv[3])
+    const responses = JSON.parse(process.argv[4])
+    const callLog = []
+    const stub = (cmd, args, opts) => {
+      callLog.push({ cmd, args, opts })
+      const r = responses[callLog.length - 1] || responses[responses.length - 1]
+      return { status: r.status, stdout: r.stdout ?? "", stderr: r.stderr ?? "" }
+    }
+    const t = loadTool(stub)
+    t.execute(execArgs, {
       sessionID: "test", messageID: "test", agent: "test",
       directory: REPO_ROOT, worktree: REPO_ROOT,
       abort: new AbortController().signal,
