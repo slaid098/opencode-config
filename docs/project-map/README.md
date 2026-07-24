@@ -39,6 +39,9 @@ opencode-config/
 │   │   ├── run-tests/SKILL.md      # Test runner guide
 │   │   └── spec/SKILL.md           # 9-phase spec generation
 │   ├── tools/
+│   │   ├── commit.ts               # commit tool wrapper (1 arg message, validates format+staged) — PR#38
+│   │   ├── create-issue.ts         # create-issue tool wrapper (3 args, validates format+labels) — PR#38
+│   │   ├── create-pr.ts            # create-pr tool wrapper (3 args, validates format+Closes #N) — PR#38
 │   │   ├── merge-pr.ts            # merge_pr tool wrapper (orchestrator-safe gh pr merge) — PR#30
 │   │   ├── memory-setup.ts         # memory_setup tool wrapper (0 args, calls setup-memory.sh) — PR#36
 │   │   ├── pipeline-status.ts      # pipeline_status tool wrapper
@@ -69,10 +72,16 @@ opencode-config/
 │       ├── index.py               # Indexing
 │       └── search.py              # Search
 ├── tests/                         # pytest + TS/MJS test suite — PR#17
-│   ├── _ts_loader.mjs             # TS test loader (imports pipeline-status.ts / spec-status.ts)
+│   ├── _ts_loader.mjs             # TS test loader (load/exec_stub/exec_stub_json/exec_real modes) — PR#38
 │   ├── test_check_adr_refs.py     # adr-check.yml validator
 │   ├── test_check_permissions.py  # permissions-check.yml validator
 │   ├── test_cli.py                # src/memory/cli.py
+│   ├── test_commit_tool.py        # .opencode/tools/commit.ts (via _ts_loader.mjs exec_stub_json) — PR#38
+│   ├── test_commit_tool.ts        # TS wrapper test (mjs loader) — PR#38
+│   ├── test_create_issue_tool.py  # .opencode/tools/create-issue.ts (via _ts_loader.mjs exec_stub_json) — PR#38
+│   ├── test_create_issue_tool.ts  # TS wrapper test (mjs loader) — PR#38
+│   ├── test_create_pr_tool.py     # .opencode/tools/create-pr.ts (via _ts_loader.mjs exec_stub_json) — PR#38
+│   ├── test_create_pr_tool.ts     # TS wrapper test (mjs loader) — PR#38
 │   ├── test_embedder.py           # src/memory/embedder.py (mocks AI_PROVIDER_API_URL)
 │   ├── test_index.py              # src/memory/index.py
 │   ├── test_memory_setup_tool.py  # .opencode/tools/memory-setup.ts (via _ts_loader.mjs) — PR#36

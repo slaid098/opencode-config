@@ -23,6 +23,6 @@ Tools auto-discovered через `@opencode-ai/plugin` — НЕ регистри
 
 ## Альтернативы
 - Validation в skills (текстовые правила, агент читает и следует) — отклонено: не enforced автоматически, агент может ошибиться, ошибки ловятся поздно (CI/review). Tools валидируют в коде — deterministic, testable
-- Single generic "git-helper" tool с mode arg — отклонено:违反 single-responsibility, усложняет validation logic (каждый mode имеет разные rules). 3 отдельных tool'а чище
+- Single generic "git-helper" tool с mode arg — отклонено: нарушает single-responsibility, усложняет validation logic (каждый mode имеет разные rules). 3 отдельных tool'а чище
 - Validation в opencode.json permission rules — отклонено: permission rules — security guards (allow/deny bash commands), не format validators. Format validation — domain logic, принадлежит tool коду
 - Python tools вместо TS — отклонено: существующий паттерн репо — TS tools (`merge-pr.ts`, `pipeline-status.ts`, `memory-setup.ts`). Consistency важнее personal preference
