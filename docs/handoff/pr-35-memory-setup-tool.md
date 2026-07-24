@@ -1,5 +1,5 @@
 ---
-pr_number: <PR-NUMBER>
+pr_number: 36
 title: Memory setup tool with deterministic init
 ---
 
