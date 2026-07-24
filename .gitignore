@@ -8,6 +8,9 @@ app_data/workspaces/*
 app_data/ssh/*
 !app_data/ssh/.gitkeep
 
+# opencode-memory lives in app_data/ as a separate git repo (clone target of memory-setup)
+app_data/opencode-memory/
+
 # opencode plugin node_modules
 .opencode/node_modules/
 
