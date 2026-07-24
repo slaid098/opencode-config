@@ -40,6 +40,7 @@ opencode-config/
 │   │   └── spec/SKILL.md           # 9-phase spec generation
 │   ├── tools/
 │   │   ├── merge-pr.ts            # merge_pr tool wrapper (orchestrator-safe gh pr merge) — PR#30
+│   │   ├── memory-setup.ts         # memory_setup tool wrapper (0 args, calls setup-memory.sh) — PR#36
 │   │   ├── pipeline-status.ts      # pipeline_status tool wrapper
 │   │   ├── spec-status.ts          # spec_status tool wrapper
 │   │   └── tunnel.ts               # Cloudflare tunnel toggle tool (start/stop без args) — PR#34
@@ -49,7 +50,7 @@ opencode-config/
 │   │   ├── observability.py        # OTel spans for tools
 │   │   ├── pipeline-status.py      # 7-phase oracle (gh PR + CI polling)
 │   │   ├── scaffold-handoff.sh     # Scaffold handoff + ADR stubs
-│   │   ├── setup-memory.sh         # opencode-memory bootstrap
+│   │   ├── setup-memory.sh         # opencode-memory bootstrap (deterministic 6-step flow, idempotent) — PR#36
 │   │   ├── spec-status.py          # 9-phase spec oracle
 │   │   └── tunnel.sh               # Cloudflare tunnel toggle bash (named mode via CLOUDFLARE_TUNNEL_TOKEN) — PR#34
 │   ├── opencode.json               # MCP servers, providers, permissions, agents, plugins
@@ -74,6 +75,8 @@ opencode-config/
 │   ├── test_cli.py                # src/memory/cli.py
 │   ├── test_embedder.py           # src/memory/embedder.py (mocks AI_PROVIDER_API_URL)
 │   ├── test_index.py              # src/memory/index.py
+│   ├── test_memory_setup_tool.py  # .opencode/tools/memory-setup.ts (via _ts_loader.mjs) — PR#36
+│   ├── test_memory_setup_tool.ts  # TS wrapper test (mjs loader) — PR#36
 │   ├── test_observability.py      # .opencode/scripts/observability.py
 │   ├── test_pipeline_status.py    # .opencode/scripts/pipeline-status.py (REVIEW verdict branching)
 │   ├── test_pipeline_status_adr.py
@@ -81,6 +84,7 @@ opencode-config/
 │   ├── test_pipeline_status_tool.py
 │   ├── test_pipeline_status_tool.ts  # TS wrapper test (mjs loader)
 │   ├── test_search.py             # src/memory/search.py
+│   ├── test_setup_memory.py       # .opencode/scripts/setup-memory.sh (mock remote, idempotency) — PR#36
 │   ├── test_spec_status.py        # .opencode/scripts/spec-status.py
 │   └── test_spec_status_tool.py
 ├── pyproject.toml                 # Python project (uv, ruff, pytest config)
@@ -88,8 +92,9 @@ opencode-config/
 ├── .pre-commit-config.yaml        # ruff + UV hooks
 ├── docker-compose.yml             # 2 services (dind + opencode), opencode_network, 4 bind mounts — PR#24
 ├── Dockerfile                     # node:20-slim + uv + gh + chromium + docker.io + opencode-ai + repomix + cloudflared — PR#24, PR#34
-├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24, PR#34 (TUNNEL_DOMAIN)
+├── .env.example                   # Placeholder-only env template (user copies to .env) — PR#24, PR#34 (TUNNEL_DOMAIN), PR#36 (OPENCODE_MEMORY_REMOTE/DIR)
 ├── app_data/
+│   ├── opencode-memory/           # Persistent memory (separate git repo, gitignored) — PR#36
 │   ├── workspaces/                # Agent working directory (.gitkeep)
 │   └── ssh/                       # SSH keys, not in git (.gitkeep)
 ├── .editorconfig
