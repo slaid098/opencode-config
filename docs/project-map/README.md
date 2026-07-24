@@ -16,7 +16,7 @@ opencode-config/
 │   └── dependabot.yml              # pip + github-actions ecosystem updates
 ├── .opencode/                      # Project-local opencode config (auto-discovery, zero env var) — PR#23
 │   ├── agents/
-│   │   ├── docs-reviewer.md        # Docs validation subagent (project map + handoff + ADR)
+│   │   ├── docs-reviewer.md        # Docs validation subagent (project map + handoff + ADR, uses `commit` tool) — PR#40
 │   │   ├── memory-syncer.md        # Distills gotchas from handoffs into opencode-memory
 │   │   └── reviewer.md             # Code review subagent (verdict APPROVE|REQUEST_CHANGES)
 │   ├── commands/
@@ -56,7 +56,7 @@ opencode-config/
 │   │   ├── setup-memory.sh         # opencode-memory bootstrap (deterministic 6-step flow, idempotent) — PR#36
 │   │   ├── spec-status.py          # 9-phase spec oracle
 │   │   └── tunnel.sh               # Cloudflare tunnel toggle bash (named mode via CLOUDFLARE_TUNNEL_TOKEN) — PR#34
-│   ├── opencode.json               # MCP servers, providers, permissions, agents, plugins
+│   ├── opencode.json               # MCP servers, providers, permissions, agents (role-based tools), plugins — PR#40
 │   ├── package.json                # npm deps for tools/*.ts
 │   └── .gitignore                  # Ignores node_modules, etc.
 ├── docs/
@@ -87,6 +87,7 @@ opencode-config/
 │   ├── test_memory_setup_tool.py  # .opencode/tools/memory-setup.ts (via _ts_loader.mjs) — PR#36
 │   ├── test_memory_setup_tool.ts  # TS wrapper test (mjs loader) — PR#36
 │   ├── test_observability.py      # .opencode/scripts/observability.py
+│   ├── test_permissions.py        # Global deny rules + agent.<name>.tools role-based access (8 tests) — PR#40
 │   ├── test_pipeline_status.py    # .opencode/scripts/pipeline-status.py (REVIEW verdict branching)
 │   ├── test_pipeline_status_adr.py
 │   ├── test_pipeline_status_ci.py
